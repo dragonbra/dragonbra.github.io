@@ -1,0 +1,644 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/basic/my_avatar.jpg">
+  <link rel="icon" href="/img/basic/my_avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Dragonbra He">
+  <meta name="keywords" content="程序员, 音游, 研究生, CV, 厦门大学">
+  
+  <title>BERT 论文笔记 | dragonbra&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/icarus-donate.css">
+<link rel="stylesheet" href="/css/scrollbar.css">
+<link rel="stylesheet" href="/css/index_img_hover.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"dragonbra.github.io","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NDVcNrHYdR9mm1EYC3Kmk9OG-gzGzoHsz","app_key":"0mwGy9MBysfulRH8Jdk7qQrM","server_url":"https://ndvcnrhy.lc-cn-n1-shared.com"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 80vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Dragonbra's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/2022-03-26-BERT-Notes/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.6)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="BERT 论文笔记">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-26 20:11" pubdate>
+        2022年3月26日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      24
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">BERT 论文笔记</h1>
+            
+            <div class="markdown-body">
+              <h1 id="BERT-论文笔记"><a href="#BERT-论文笔记" class="headerlink" title="BERT 论文笔记"></a>BERT 论文笔记</h1><h2 id="论文主要信息"><a href="#论文主要信息" class="headerlink" title="论文主要信息"></a>论文主要信息</h2><ul>
+<li>标题：BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</li>
+<li>作者：<a target="_blank" rel="noopener" href="https://arxiv.org/search/cs?searchtype=author&query=Devlin,+J">Jacob Devlin</a>, <a target="_blank" rel="noopener" href="https://arxiv.org/search/cs?searchtype=author&query=Chang,+M">Ming-Wei Chang</a>, <a target="_blank" rel="noopener" href="https://arxiv.org/search/cs?searchtype=author&query=Lee,+K">Kenton Lee</a>, <a target="_blank" rel="noopener" href="https://arxiv.org/search/cs?searchtype=author&query=Toutanova,+K">Kristina Toutanova</a></li>
+<li>机构：Google AI Language</li>
+<li>来源：NAACL-HLT 2019（Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies）</li>
+<li>代码：<a target="_blank" rel="noopener" href="https://github.com/google-research/bert">https://github.com/google-research/bert</a></li>
+</ul>
+<h2 id="摘要-Abstract"><a href="#摘要-Abstract" class="headerlink" title="摘要 Abstract"></a>摘要 Abstract</h2><p>本文介绍一个新的语言表示模型BERT（Bidirectional Encoder Representations from Transformers）。叫BERT和它的想法主要来自于另一份工作ELMo（芝麻街中的角色）很有关系。主要引用了ELMo和GPT两篇文章，BERT训练深的双向的表示，使用的是没有标号的数据，联合左右的上下文信息。因为我们的设计导致训练好的BERT，只需要加一个额外的输出层，就可以在很多的NLP任务上得到不错的结果，包括问答、语言推理等，而且不需要对任务做特别的架构上的改动。相比GPT的利用单向，左边的上下文信息预测未来，BERT使用的是左右侧双向的信息。相比ELMo使用的RNN的架构，BERT使用的是Transformer，所以当ELMo使用到较下游的任务的时候需要对架构进行调整，而BERT的地方相对比较简单，只需要改最上层就行（和GPT比较一样）。</p>
+<p>BERT在概念上更加简单，而且在实验上更加好，在11个NLP任务上得到了更好的结果，包括GLUE、MultiNLI、SQuADv1.1、SQuADv2.0等（包括详细的精度比较）。</p>
+<h2 id="1-引言-Introduction"><a href="#1-引言-Introduction" class="headerlink" title="1. 引言 Introduction"></a>1. 引言 Introduction</h2><p>在语言模型里，<strong>预训练</strong>可以用来提升很多自然语言的任务。比如词嵌入、GPT等。这些自然语言任务里包括两类，第一类叫句子层面的任务，建模句子之间的关系，比如对句子情绪的识别、分析两个句子之间的关系；第二类任务是词语言层面的任务，比如实体命名的识别和问答，这类任务需要输出一些细粒度的词元层面的输出。 </p>
+<p>在使用预训练模型做特征表示的时候，一般有两类策略，第一种是基于特征的，第二种是基于微调的。第一种基于特征的代表作是ELMo，它对每一个下游的任务，构造一个和这个任务相关的神经网络（RNN），在预训练好这些表示后，作为一个额外的特征一起输入进这个模型里，希望这些特征有了比较好的表示，让模型训练比较容易。第二种基于微调的例子是GPT，把预训练好的模型放在下游后不需要改开头的，只需要在下游的任务上微调一下。这两个途径都是在使用一个相同的目标函数，使用一个单向的语言模型（根据前文去预测未来的语言）。</p>
+<p>现在这样的技术有局限性，特别是在做预训练的表示的时候（pre-trained representations），主要问题是标准的语言模型是一个单向的，导致在选架构的时候有一定的局限性，比如GPT里面使用的是一个从左到右的架构，这个东西不是很好，如果要做一个句子层面的分析的话，比如一次从左看到右和从右看到左（完整看整个句子）都是合法的，如果要做一个词元级别的任务的时候，比如问答任务的时候，也是可以看完整个句子后去选答案，而不是必须要一个一个往下走。如果我把两个方向的信息都放进来之后，应该是能提高相关任务的性能的。</p>
+<p>在这篇论文中，提出了BERT，BERT是用来减轻之前提到过的语言模型是单向的限制。它使用的是一个带掩码（<strong>MLM</strong>, Masked Language Model）的语言模型，这个东西是受一个叫Cloze task（1953年的一篇论文）的启发。这个带掩码的语言模型每次随机的选一些词元把它们盖住，然后目标函数就是预测那些被盖住的词，类似完形填空。这样允许我们训练一个深的双向的语言模型，在带掩码的模型之外，还有另一个任务预测下一个句子（<strong>NSP</strong>, Next Sentence Prediction），给两个句子，判断两个句子在原文中是否相邻，还是随机采样的两个句子放在一起。这样能让模型学习一些句子层面的信息。</p>
+<p>这篇文章的贡献，作者罗列了三点：</p>
+<ol>
+<li>展示了双向信息的重要性。GPT只用了单向，之前有的工作是把一个从左看到右的语言模型和从右看到左的语言模型简单合并在一起，有点像双向的RNN模型，把它们链接在一起。BERT在双向信息的运用上更合理一些。</li>
+<li>假设有一个比较好的预训练的模型的话，就可以不用对很多特定任务做特定的模型的改动了。BERT是在一系列NLP任务上的第一个基于微调的模型，这些任务包括句子层面、词元层面的任务上，都取得了最好的成绩。</li>
+<li>代码和模型全部放在这里，大家可以随便用。</li>
+</ol>
+<h2 id="6-结论-Conclusion"><a href="#6-结论-Conclusion" class="headerlink" title="6. 结论 Conclusion"></a>6. 结论 Conclusion</h2><p>最近的一些实验表明使用非监督的预训练是非常好的，这样使得资源不多的任务，比如训练样本比较少的任务也能享受深度神经网络。作者主要的工序就是把前人的结果拓展到一个深的双向的架构上面，使得同样的一个预训练模型能够处理大量的NLP的任务。主要是把ELMo使用双向的想法和GPT使用Transformer的东西合起来，就成了BERT，具体的改动是在做语言模型的时候，从预测未来变成了完形填空。</p>
+<h2 id="2-相关工作-Related-Work"><a href="#2-相关工作-Related-Work" class="headerlink" title="2. 相关工作 Related Work"></a>2. 相关工作 Related Work</h2><h3 id="2-1-非监督的基于特征的工作-Unsupervised-Feature-based-Approaches"><a href="#2-1-非监督的基于特征的工作-Unsupervised-Feature-based-Approaches" class="headerlink" title="2.1. 非监督的基于特征的工作 Unsupervised Feature-based Approaches"></a>2.1. 非监督的基于特征的工作 Unsupervised Feature-based Approaches</h3><p>主要是之前提到的ELMo，介绍了一些。</p>
+<h3 id="2-2-非监督的基于微调的工作-Unsupervised-Fine-tuning-Approaches"><a href="#2-2-非监督的基于微调的工作-Unsupervised-Fine-tuning-Approaches" class="headerlink" title="2.2. 非监督的基于微调的工作 Unsupervised Fine-tuning Approaches"></a>2.2. 非监督的基于微调的工作 Unsupervised Fine-tuning Approaches</h3><p>代表作是GPT，和一些相关的工作。</p>
+<h3 id="2-3-有监督的数据上做迁移学习-Transfer-Learning-from-Supervised-Data"><a href="#2-3-有监督的数据上做迁移学习-Transfer-Learning-from-Supervised-Data" class="headerlink" title="2.3. 有监督的数据上做迁移学习 Transfer Learning from Supervised Data"></a>2.3. 有监督的数据上做迁移学习 Transfer Learning from Supervised Data</h3><p>在NLP中有监督的数据包括了自然语言的一些推理和机器翻译，在这些有标号的数据集上训练好后在别的任务上使用。类比CV中这一块使用是很多的，比如大家在ImageNet上训练好模型，再去别的地方使用，但是在NLP这块似乎不是那么的理想。这两个任务（推理和机器翻译）可能和别的任务差别还是挺大的，也可能是数据规模是远远不够的。BERT以及之后的一些研究证明了在NLP上面使用没有编号的大量的数据集训练成果比有标号的小的数据集上效果更好。</p>
+<h2 id="3-BERT"><a href="#3-BERT" class="headerlink" title="3. BERT"></a>3. BERT</h2><p>在这一章中主要讲BERT的实现的细节。第一个叫预训练（pre-training）和微调（fine-tuning）。在预训练的时候模型是在没有标号的数据集上训练的，在微调的时候就是在下游任务的时候基于预训练好的模型在有标号的数据集上继续训练。每一个下游任务都会有一个新的BERT模型，虽然他们用的都是一样的预训练模型进行参数的初始化，但是对每一个下游任务，都会根据自己的数据训练自己的模型，在图1里面进行了展示。</p>
+<p><img src="/img/2022-03-26-BERT-Notes/Fig1.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="模型架构-Model-Architecture"><a href="#模型架构-Model-Architecture" class="headerlink" title="模型架构 Model Architecture"></a>模型架构 Model Architecture</h3><p>BERT模型架构是一个多层的双向的Transformer的编码器，而且是直接基于原始的论文和原始的代码，没有做什么改动。（BERT’s model architecture is a multi-layer bidirectional Transformer encoder based on the original implementation described in Vaswani et al. (2017) and released in the tensor2tensor library.） </p>
+<p>在这篇文章的工作中，调了3个参数，第一个是Transformer块的个数、层数$L$，第二个是隐藏层的宽度大小$H$，第三个是在自注意力机制里多头的头的个数$A$。作者有两个模型$BERT_{base}(L=12,H=768,A=12)$，总共学习的参数是$110M$，和$BERT_{large}(L=24,H=1024,A=16)$，总共学习的参数是$340M$。</p>
+<p>BERTbase是选取了和GPT模型的参数数量差不多的，是用于比较的目的。BERTlarge就是用于刷榜的。</p>
+<blockquote>
+<p>如何通过超参数的大小计算训练的参数个数，回顾Transformer的架构</p>
+</blockquote>
+<p><img src="/img/2022-03-26-BERT-Notes/Aft1.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="输入输出的表示-Input-Output-Representations"><a href="#输入输出的表示-Input-Output-Representations" class="headerlink" title="输入输出的表示 Input/Output Representations"></a>输入输出的表示 Input/Output Representations</h3><p>为了让BERT能处理各种下游任务，输入的表示既可以是一个句子，也可以是一个句子对。一个句子的意思是一段连续的文字，输入是一定的文字序列。</p>
+<p>用的切词的方法是WordPiece，如果按照空格切词的话，因为数据量很大，所以可能导致词典的大小在百万级别。如果是这样的话，之前计算出的参数数量可能会导致训练后的参数整个都在嵌入层上。WordPiece的想法是如果一个词整体出现的概率不大，那么把它切开看它的子序列，如果某个子序列出现的概率比较大的话，那么很可能是个词根，保留这个子序列就行了，这样可以把一个相对来说比较长的词切成比较小的词根。所以用一个大小大概是30000的词典就可以表示整个文本了。</p>
+<p>输入的表示有两点：第一，序列的开始永远是一个特殊的记号[CLS]，这个词的作用是BERT希望它的输出是整个序列的一个句子层面的信息。因为BERT使用的是Transformer的编码器，所以放在开头也能看到整个句子的信息。第二，两个句子合在一起，但是要做句子层面的分类，所以需要把两个句子区分开来，有两个办法来区分，第一个是在每个句子后面放一个特殊的词[SEP]，第二个是学一个特殊的嵌入层来表示这个句子是第一个句子还是第二个句子，在图1里有展示它长什么样子。</p>
+<p>对于一个词元，它进入BERT的向量表示是这个词本身的一个Embedding加上在哪个句子和在哪个位置的Embedding，在图2里有展示出来BERT是如何从一个词元的序列得到一个向量的序列，这个向量的序列会进入Transformer块。</p>
+<p><img src="/img/2022-03-26-BERT-Notes/Fig2.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="3-1-预训练的BERT-Pre-training-BERT"><a href="#3-1-预训练的BERT-Pre-training-BERT" class="headerlink" title="3.1. 预训练的BERT Pre-training BERT"></a>3.1. 预训练的BERT Pre-training BERT</h3><p>预训练主要关注目标函数和数据是什么？</p>
+<h4 id="Task-1-Masked-LM-MLM"><a href="#Task-1-Masked-LM-MLM" class="headerlink" title="Task#1 Masked LM (MLM)"></a>Task#1 Masked LM (MLM)</h4><p>主要先介绍了带掩码的语言模型是什么，为什么双向的信息更好。对于一个输入的词元序列，如果一个词元是由WordPiece生成的话，有15%的概率会生成一个掩码，但是对于特殊的标记符词元，不会进行替换。比如输入的词元长度是1000的话，那么就要预测150个词。</p>
+<p>这样也有一定的问题，当做掩码的时候，会把一定的词替换成[MASK]，那么在训练的时候，会看到15%的词元会对应成这个[MASK]，但是在微调的时候，其实是没有这个词元的，导致在预训练的时候和微调的时候看到的数据会不一样，这样会带来一定的问题。一个解决方法是，对于这15%的被选中的掩码的词，有80%的概率是真的替换成[MASK]，还有10%的概率是替换成一个随机的词元，还有10%的概率是什么都不干，但是用它来做预测。这个比例来自于有一个ablation study，跑了实验后发现这个东西还不错。</p>
+<p><img src="/img/2022-03-26-BERT-Notes/MLM.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="Task-2-Next-Sentence-Prediction-NSP"><a href="#Task-2-Next-Sentence-Prediction-NSP" class="headerlink" title="Task#2 Next Sentence Prediction (NSP)"></a>Task#2 Next Sentence Prediction (NSP)</h4><p>在QA和在推理里，都是一个句子对，所以能让BERT学习一些句子层面的信息是不错的。具体来说，输入序列里有两个句子，a和b，有50%的概率是b在原文中就在a之后，有50%的概率是b就是随机选取的一个例子。在Section 5.1中有一些结果的比较，加入这个目标函数之后，能极大地提高QA和在语言推理的效果。</p>
+<p><img src="/img/2022-03-26-BERT-Notes/NSP.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="Pre-training-data"><a href="#Pre-training-data" class="headerlink" title="Pre-training data"></a>Pre-training data</h4><p>用了两个数据集，第一个是BooksCorpus(800M words)，第二个是English Wikipedia(2,500M words)。我们应该用文本层面的数据集（一篇篇的文章），这是因为Transformer确实能处理整个文章层面的信息，比散乱的句子要好。</p>
+<h3 id="3-2-微调的BERT-Fine-tuning-BERT"><a href="#3-2-微调的BERT-Fine-tuning-BERT" class="headerlink" title="3.2. 微调的BERT Fine-tuning BERT"></a>3.2. 微调的BERT Fine-tuning BERT</h3><p>BERT和一些基于编码器解码器的架构有什么不同。因为作者把整个句子对都放进去了，所以self attention能够在两端之间相互看，但是在编码器-解码器的架构里，编码器其实看不到解码器的信息，这一点在BERT里好一点。但是这一点也付出了代价，BERT不能像Transformer一样做机器翻译了。做下游任务的时候，会根据任务设计相关的输入和输出。好处是模型不怎么需要变，只需要把输入改成需要的那个句子对。如果真的有两个句子a和b的话，那么直接作为句子对输入进去就行，否则只有一个句子进行输入的话，要么是拿到第一个词元[CLS]做分类，要么是拿对应的词元去做对应的任务。不管如何，都是在最后加一个输出层，使用softmax得到一个输出的标号。</p>
+<p>跟预训练比，微调的训练都相对便宜。所有的实验都只需要使用TPU跑一个小时就行了，使用GPU的话多跑几个小时也是可以的。具体对于每一个任务是如何构造输入输出的会在第四节进行介绍。</p>
+<h2 id="4-实验-Experiments"><a href="#4-实验-Experiments" class="headerlink" title="4. 实验 Experiments"></a>4. 实验 Experiments</h2><h3 id="4-1-GLUE"><a href="#4-1-GLUE" class="headerlink" title="4.1. GLUE"></a>4.1. GLUE</h3><p>第一个是句子层面的任务GLUE。BERT是把第一个特殊词元[CLS]的最后的向量拿出来，学习一个输出层W，用softmax得到一个标号，就是一个正常的多分类问题。表1就是在GLUE所有任务上得到的一个结果展示。</p>
+<p><img src="/img/2022-03-26-BERT-Notes/Tab1.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="4-2-SQuAD-v1-1"><a href="#4-2-SQuAD-v1-1" class="headerlink" title="4.2. SQuAD v1.1"></a>4.2. SQuAD v1.1</h3><p>这个是斯坦福的一个QA的数据集。在QA这个任务中，任务是给一段话，问一个问题，需要把答案找出来。答案已经在给出的那一段话里，只需要把答案对应的那一小段话找出来就可以了。任务其实就是对每个词元判断是不是答案的开头，是不是答案的结尾。BERT具体来说就是学两个向量S和E，对应的是这个词元是开头/结尾的概率。在做微调的时候使用的是3个Epoch（很小），学习率是5e-5，batch size是32。</p>
+<h3 id="4-3-SQuAD-v2-0"><a href="#4-3-SQuAD-v2-0" class="headerlink" title="4.3. SQuAD v2.0"></a>4.3. SQuAD v2.0</h3><p>QA数据集的2.0版本</p>
+<h3 id="4-4-SWAG"><a href="#4-4-SWAG" class="headerlink" title="4.4. SWAG"></a>4.4. SWAG</h3><p>用来判断两个句子的关系，和之前的训练没有太大区别，BERT结果也是比其他的要好。</p>
+<h2 id="5-消融研究-Ablation-Study"><a href="#5-消融研究-Ablation-Study" class="headerlink" title="5. 消融研究 Ablation Study"></a>5. 消融研究 Ablation Study</h2><h3 id="5-1-Effect-of-Pre-training-Tasks"><a href="#5-1-Effect-of-Pre-training-Tasks" class="headerlink" title="5.1. Effect of Pre-training Tasks"></a>5.1. Effect of Pre-training Tasks</h3><p>如果去掉了NSP任务、或者去掉双向的机制会如何，发现BERT的效果都会打折，可见表5。</p>
+<p><img src="/img/2022-03-26-BERT-Notes/Tab5.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="5-2-Effect-of-Model-Size"><a href="#5-2-Effect-of-Model-Size" class="headerlink" title="5.2. Effect of Model Size"></a>5.2. Effect of Model Size</h3><p>研究模型大小的影响。想法是和NLP其他模型是差不多的，认为当模型参数越来越大的时候，效果也会越来越好。认为这个是第一个展示了如果把模型变得特别大的时候，语言模型会有比较大的提升的工作。从现在角度来看，BERT的参数并不大，只有一个亿（GPT3的参数有一千个亿），甚至模型也在越来越大。但是在三年前，BERT是开创性的工作，能把模型推到这么大。</p>
+<h3 id="5-3-Feature-based-Approach-with-BERT"><a href="#5-3-Feature-based-Approach-with-BERT" class="headerlink" title="5.3. Feature-based Approach with BERT"></a>5.3. Feature-based Approach with BERT</h3><p>假设作者不用BERT做微调的时候，而是把BERT的特征作为一个静态特征输进去会怎样。结论是效果确实没有微调那么好（用BERT的话应该在下游任务进行微调）。</p>
+<h2 id="读后评论"><a href="#读后评论" class="headerlink" title="读后评论"></a>读后评论</h2><p>沐神：</p>
+<ol>
+<li>从写作上感觉还行，中规中矩。在这篇文章的结论里，他认为他最大的贡献是双向性，但是其实选用双向性这个词是有待商榷的。没有怎么写选用这个方法后失去了什么，比如很难做生成类的任务、机器翻译类的任务，因为相比Transformer或者GPT的架构，只有编码器而没有解码器。</li>
+<li>从现在再回去看BERT的话，看到的其实是一个完整的一个解决问题的思路。符合了大家对一个深度学习的模型的期望，作者训练了一个很大很深的模型，在一个很大的数据集上训练好。这个模型训练后能通过微调用在很多小的数据集和任务上。这个在CV中用了很多年了，在NLP中BERT展示的是一个几个亿的参数训练了几百GB的数据集，很简单很暴力效果很好。沐神的疑惑：BERT是这些工作中的一篇，更大的数据集训练更好的模型，比前面都要好，类似ELMo和GPT出来的时候也是这样。BERT的作用是被后面的结果去超越。</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">论文阅读笔记</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86-NLP/">自然语言处理 NLP</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Transformer/">Transformer</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
+                    
+                      <a class="hover-with-bg" href="/tags/BERT/">BERT</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！<br> 如果觉得文章内容不错，还请大力支持哦~<br> <div class="buttons is-centered"> <a class="button donate" data-type="wechat"><span class="icon is-small"><i class="iconfont icon-wechat-fill"></i></span><span>赞赏码</span> <span class="qrcode"><img src="/img/basic/donate.png" srcset="/img/loading.gif" lazyload alt="赞赏码"></span></a> </div>
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022-04-03-Pruning-Notes/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Pruning 泛读论文笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022-03-27-GPT-Notes/">
+                        <span class="hidden-mobile">GPT、GPT-2、GPT-3 论文笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"d01489e72d00bbbd006f","clientSecret":"0d56ce41df647dd34492d79df080630005dedc92","repo":"dragonbra.github.io","owner":"dragonbra","admin":["dragonbra"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: 'b06cec0ad75fa8ce8c98e2e8da789871'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     Copyright © 2021 - 2022 <a target="_blank" rel="noopener" href="https://github.com/dragonbra">Dragonbra</a> All Right Reserved .<br> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

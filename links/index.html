@@ -37,10 +37,18 @@
 
 <!-- 自定义样式保持在最底部 -->
 
+  
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/icarus-donate.css">
+<link rel="stylesheet" href="/css/scrollbar.css">
+<link rel="stylesheet" href="/css/index_img_hover.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+
+
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NDVcNrHYdR9mm1EYC3Kmk9OG-gzGzoHsz","app_key":"0mwGy9MBysfulRH8Jdk7qQrM","server_url":"https://ndvcnrhy.lc-cn-n1-shared.com"}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"dragonbra.github.io","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NDVcNrHYdR9mm1EYC3Kmk9OG-gzGzoHsz","app_key":"0mwGy9MBysfulRH8Jdk7qQrM","server_url":"https://ndvcnrhy.lc-cn-n1-shared.com"}},"search_path":"/local-search.xml"};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -215,7 +223,7 @@
           
           <div class="link-text">
             <div class="link-title">VCode</div>
-            <div class="link-intro">OI椰叶</div>
+            <div class="link-intro">NOI椰叶</div>
           </div>
         </div>
       </a>
@@ -241,11 +249,11 @@
   
     
     <div class="card col-lg-4 col-md-6 col-sm-12">
-      <a href="http://blog.linhui.fun/" class="card-body hover-with-bg" target="_blank" rel="noopener">
+      <a href="https://blog.linhui.fun/" class="card-body hover-with-bg" target="_blank" rel="noopener">
         <div class="card-content">
           
             <div class="link-avatar my-auto">
-              <img src="http://blog.linhui.fun/attachment/20200609/cc4cfce1f93949efb6c3af5adb16b2a9.png" srcset="/img/loading.gif" lazyload alt="辉神"
+              <img src="https://blog.linhui.fun/attachment/20200609/cc4cfce1f93949efb6c3af5adb16b2a9.png" srcset="/img/loading.gif" lazyload alt="辉神"
                    onerror="this.onerror=null; this.src=this.srcset='/img/avatar.png'"/>
             </div>
           
@@ -260,24 +268,30 @@
 </div>
 
 
+  <!-- Custom -->
+  <div class="custom mx-auto">
+    <hr><p>欢迎在下方留言申请加入我的友链，请按如下格式提供信息：</p> <p class="note note-light">title: Dragonbra <br> intro: 追逐梦想的角宿 ... <br> link: https://dragonbra.github.io/ <br> avatar: https://dragonbra.github.io/img/basic/my_avatar.jpg</p> <p>请确保已添加我的友链哦~</p>
+  </div>
+
 
 
   <!-- Comments -->
   <article class="comments" id="comments" lazyload>
     
     
-  <div id="valine"></div>
+  <div id="gitalk-container"></div>
   <script type="text/javascript">
-    Fluid.utils.loadComments('#valine', function() {
-      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js', function() {
         var options = Object.assign(
-          {"appId":"NDVcNrHYdR9mm1EYC3Kmk9OG-gzGzoHsz","appKey":"0mwGy9MBysfulRH8Jdk7qQrM","placeholder":"e.g. 在这里留言吧~","path":"window.location.pathname","avatar":"retro","meta":["nick","mail"],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://ndvcnrhy.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"requiredFields":[]},
+          {"clientID":"d01489e72d00bbbd006f","clientSecret":"0d56ce41df647dd34492d79df080630005dedc92","repo":"dragonbra.github.io","owner":"dragonbra","admin":["dragonbra"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            el: "#valine",
-            path: window.location.pathname
+            id: '38687fdbcd50268b872dd8c493f739e6'
           }
         )
-        new Valine(options);
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
       });
     });
   </script>

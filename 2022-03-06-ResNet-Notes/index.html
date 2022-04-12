@@ -1,0 +1,697 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/basic/my_avatar.jpg">
+  <link rel="icon" href="/img/basic/my_avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Dragonbra He">
+  <meta name="keywords" content="程序员, 音游, 研究生, CV, 厦门大学">
+  
+  <title>ResNet 论文笔记 | dragonbra&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/icarus-donate.css">
+<link rel="stylesheet" href="/css/scrollbar.css">
+<link rel="stylesheet" href="/css/index_img_hover.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"dragonbra.github.io","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NDVcNrHYdR9mm1EYC3Kmk9OG-gzGzoHsz","app_key":"0mwGy9MBysfulRH8Jdk7qQrM","server_url":"https://ndvcnrhy.lc-cn-n1-shared.com"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 80vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Dragonbra's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/2022-03-06-ResNet-Notes/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.6)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="ResNet 论文笔记">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-06 14:34" pubdate>
+        2022年3月6日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ResNet 论文笔记</h1>
+            
+            <div class="markdown-body">
+              <h1 id="ResNet-论文笔记"><a href="#ResNet-论文笔记" class="headerlink" title="ResNet 论文笔记"></a>ResNet 论文笔记</h1><h2 id="论文主要信息"><a href="#论文主要信息" class="headerlink" title="论文主要信息"></a>论文主要信息</h2><ul>
+<li>标题：Deep Residual Learning for Image Recognition</li>
+<li>简称：ResNet</li>
+<li>作者：Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun </li>
+<li>机构：Microsoft Research</li>
+<li>来源：CVPR 2015</li>
+<li>代码：<a target="_blank" rel="noopener" href="https://github.com/pytorch/vision/blob/main/torchvision/models/resnet.py">https://github.com/pytorch/vision/blob/main/torchvision/models/resnet.py</a></li>
+</ul>
+<h2 id="摘要-Abstract"><a href="#摘要-Abstract" class="headerlink" title="摘要 Abstract"></a>摘要 Abstract</h2><p>深的神经网络非常难以训练，于是做了一个残差学习的框架，使得训练非常深的神经网络，比之前轻松了很多。使用residual functions作为层输入去学习，而不是使用之前的unreferenced functions。</p>
+<p>论文里提供了非常多的<strong>实验的证据</strong>，证明残差神经网络非常容易训练，而且能得到很好的训练精度，尤其是在神经网络层数加深之后。</p>
+<ul>
+<li>在ImageNet上使用了152层深度的ResNet，比VGG网络深8倍，但是计算复杂度更低。</li>
+<li>在ImageNet测试集上达到了3.57%的错误率，赢下了ImageNet 2015年的竞赛。</li>
+<li>也演示了在CIFAR-10上训练100和1000层的网络。</li>
+</ul>
+<p>对很多视觉的任务来说，深度是非常重要的。仅仅将网络换成之前训练的残差神经网络（深的），在COCO目标检测数据集上得到了28%的相对改进。也通过这个结果赢下了物体检测方面的一系列竞赛。</p>
+<h2 id="1-导言-Introduction"><a href="#1-导言-Introduction" class="headerlink" title="1. 导言 Introduction"></a>1. 导言 Introduction</h2><p>深度卷积神经网络在图像分类上带来了一系列的突破。主要是在深度神经网络中会很自然地（不同层数）得到一些low/mid/high level的特征，用于识别图像。</p>
+<p>思考深度对于神经网络效果提升的有效性，可以提出一个问题：<strong>一个好的神经网络就是直接把更多的层堆积起来就更好吗？</strong></p>
+<ul>
+<li>当网络加深的时候，可能会出现gradient vanishing/exploding的问题，对于这个问题可以使用一些方法来解决（比如正则初始化，BN等）。</li>
+<li>但是另一个问题是，随着网络深度加深，其实性能/精度是变差的。这个不是因为层数变多，模型变大后导致的过拟合（因为训练误差也变大了）。</li>
+</ul>
+<p><img src="/img/2022-03-06-ResNet-Notes/Fig1.png" srcset="/img/loading.gif" lazyload></p>
+<p>对于第二个问题深入探讨：对于一个结构层数比较浅的神经网络，如果能得到不错的训练效果，那么在上面添加更多的层数，其实理论上应该是能得到更好的表现的，即使是新加的层数相比之前就是一个identity mapping，也不应该让误差更大。但是实验的结果中可以看到， stochastic gradient descent (SGD) （随机梯度下降）找不到这个更优的解，甚至可能层数加深后表现更差。</p>
+<p>接下来作者介绍的是 deep residual learning framework，假设在一个已有的输出结果为$x$的层后添加新的层，假设要学习的目标是$H(x)$，那么就让真实的优化目标不是$H(x)$，而是减去原来输出结果$x$的$F(x):=H(x)-x$，并且在这一层的输出结果中把原来的训练结果加上，输出$F(x)+x$。<strong>意思是在这一层的训练内容中，不去重复训练已有的训练结果，而是去训练这个结果和这一层训练目标之间的残差（Residual）（</strong>$H(x)-x$<strong>而不是</strong>$H(x)$<strong>）</strong></p>
+<p><img src="/img/2022-03-06-ResNet-Notes/Fig2.png" srcset="/img/loading.gif" lazyload></p>
+<p>$F(x)+x$这个动作可以在前向神经网络中通过”shortcut connections”实现。这个就是一个identity mapping，而且加的东西没有任何新的参数，只是一个加法，不会有模型计算复杂度上的增加。</p>
+<p>通过实验证明了两点：</p>
+<ol>
+<li>文章提出的residual的网络非常容易优化，但是如果加入”plain”的网络，随着深度加深的同时会得到更高的训练误差。</li>
+<li>residual的网络深度越深，训练的效果就越好</li>
+</ol>
+<p>以上的结果在CIFAR-10和ImageNet中都有体现。</p>
+<h2 id="2-相关工作-Related-Work"><a href="#2-相关工作-Related-Work" class="headerlink" title="2. 相关工作 Related Work"></a>2. 相关工作 Related Work</h2><h3 id="Residual-Representation"><a href="#Residual-Representation" class="headerlink" title="Residual Representation"></a>Residual Representation</h3><p>图像识别中的VLAD是通过字典的残差向量进行编码。还有Fisher Vector是VLAD的一个概率上的表示。</p>
+<p>Low-level vision和计算机图形学中求解 Partial Differential Equations (PDEs) 偏微分方程有一个广泛使用的方法Multigrid method。</p>
+<p>（沐神：在机器学习中其实使用更广泛，使用residual训练一些弱的分类器叠加起来成为一个强的分类器。这篇论文可能发布在CVPR上主要回顾的是CV相关的工作。）</p>
+<h3 id="Shortcut-Connections"><a href="#Shortcut-Connections" class="headerlink" title="Shortcut Connections"></a>Shortcut Connections</h3><p>“highway networks”等等都是比较复杂的运用方法，但是在ResNet中只是比较简单的累加的运用。</p>
+<h2 id="3-Deep-Residual-Learning"><a href="#3-Deep-Residual-Learning" class="headerlink" title="3. Deep Residual Learning"></a>3. Deep Residual Learning</h2><h3 id="3-1-Residual-Learning"><a href="#3-1-Residual-Learning" class="headerlink" title="3.1. Residual Learning"></a>3.1. Residual Learning</h3><p>基本和导言中提到的内容是一致的，相比直接在$x$的输出结果基础上训练目标为$H(x)$的目标函数，改为先去掉上一层的输出结果，训练$F(x):=H(x)-x$，在训练后再加上原先的$x$，输出$F(x)+x$。</p>
+<h3 id="3-2-Identity-Mapping-by-Shortcuts"><a href="#3-2-Identity-Mapping-by-Shortcuts" class="headerlink" title="3.2. Identity Mapping by Shortcuts"></a>3.2. Identity Mapping by Shortcuts</h3><p>Fig.2 展示的就是整个网络中的一部分，对应的也就是Eqn.(1)</p>
+<p><img src="/img/2022-03-06-ResNet-Notes/Eqn1.png" srcset="/img/loading.gif" lazyload></p>
+<p>在Eqn.(1)中，要求$ F(x,\lbrace W_i\rbrace ) $和$x$的维度是一样的，这样才能相加，否则就要进行投影或者别的方式，在公式上可以体现为乘了一个新的矩阵$W_s$</p>
+<p><img src="/img/2022-03-06-ResNet-Notes/Eqn2.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="3-3-Network-Architectures"><a href="#3-3-Network-Architectures" class="headerlink" title="3.3. Network Architectures"></a>3.3. Network Architectures</h3><p>残差连接如何处理输入和输出的维度是不等的情况。</p>
+<p>两个方案：</p>
+<ol>
+<li>在输入和输出上添加一些额外的0，使得输入输出的维度相同。</li>
+<li>在1x1的卷积上进行投影，增加输出通道数。（步幅为2）</li>
+</ol>
+<h3 id="3-4-Implementation"><a href="#3-4-Implementation" class="headerlink" title="3.4. Implementation"></a>3.4. Implementation</h3><p>ImageNet上的实现：</p>
+<ol>
+<li>在短边上随机采样到[256, 480]。好处是在裁剪到224*224的时候随机性会更多一些。</li>
+<li>在颜色上进行了一定的增强。类似亮度、饱和度。</li>
+<li>使用了Batch Normalization(BN)。</li>
+<li>初始权重和[13] K. He, X. Zhang, S. Ren, and J. Sun. Delving deep into rectifiers: Surpassing human-level performance on imagenet classification. In ICCV, 2015. 这篇文章中一样。</li>
+<li>随机梯度下降（SGD）的批量大小是256，学习率是0.1，每次错误率比较平的时候除以10。</li>
+<li>训练了$60 \times 10^4$次iterations，weight decay是0.0001，momentum是0.9。</li>
+<li>没有使用dropout（因为没有全连接层）。</li>
+</ol>
+<p>测试的时候：</p>
+<ol>
+<li>使用了standard 10-crop testing（随机采样10个图片，进行预测求平均）。</li>
+<li>测试的时候使用了几个不同的分辨率$\lbrace224, 256, 384, 480, 640 \rbrace$</li>
+</ol>
+<h2 id="4-实验-Experiment"><a href="#4-实验-Experiment" class="headerlink" title="4. 实验 Experiment"></a>4. 实验 Experiment</h2><h3 id="4-1-ImageNet-Classification"><a href="#4-1-ImageNet-Classification" class="headerlink" title="4.1. ImageNet Classification"></a>4.1. ImageNet Classification</h3><p>在ImageNet 2012分类数据集上实现ResNet。这个数据集包含1000个类别。这个模型在1.28 million的训练集上进行训练，验证集为50k。最后在100k的测试图片上得到了top-1和top-5的错误率。</p>
+<p>对比的是<strong>Plain Networks</strong>。18-layers和34-layers的版本。</p>
+<p><img src="/img/2022-03-06-ResNet-Notes/Fig3.png" srcset="/img/loading.gif" lazyload></p>
+<p>Table 1.是不同深度版本的ResNet的架构：</p>
+<p><img src="/img/2022-03-06-ResNet-Notes/Tab1.png" srcset="/img/loading.gif" lazyload></p>
+<p>初始的池化层和最后的全连接层的架构是一样的，中间是不一样的。</p>
+<p>$\lbrace 64, 128, 256, … \rbrace$表示的是通道的数量。FLOPs，需要进行的浮点计算是可以计算出来的，体现出来深度加深之后其实运算的复杂度没有提高很多。</p>
+<p>在Table 2.中对比了Plain Networks在34-layer的时候比18-layer具有更高的训练误差：</p>
+<p><img src="/img/2022-03-06-ResNet-Notes/Tab2.png" srcset="/img/loading.gif" lazyload></p>
+<p>Fig 4.左边是Plain Network，右边是ResNet：</p>
+<p><img src="/img/2022-03-06-ResNet-Notes/Fig4.png" srcset="/img/loading.gif" lazyload></p>
+<p>粗线是测试精度，细线是训练精度。下降较明显的是学习率*0.1，改变梯度下降的步子。</p>
+<p>主要展现的是有残差连接后：</p>
+<ol>
+<li>网络深层越深，训练和测试误差越低。</li>
+<li>训练的时候收敛更快。</li>
+</ol>
+<p>在Table 3.中比较了Shortcut Connection的三种方案：</p>
+<p>A. 在维度形状不同的时候添加0。</p>
+<p>B. 在维度不同的时候使用投影增加输出通道。</p>
+<p>C. 不管维度是否相同，都使用投影。</p>
+<p><img src="/img/2022-03-06-ResNet-Notes/Tab3.png" srcset="/img/loading.gif" lazyload></p>
+<p>B和C基本对A都有较大的提升。C看起来会更好一点，但是每次都做投影会带来更高的计算复杂度，所以在ResNet实现的时候选择使用了B方案，只在形状改变的时候进行投影（大约只有4次改变）。</p>
+<p> <strong>Deeper Bottleneck Architectures</strong> </p>
+<p>如何加深ResNet的深度，引入了一个叫做bottleneck design的东西，如Fig. 5：</p>
+<p><img src="/img/2022-03-06-ResNet-Notes/Fig5.png" srcset="/img/loading.gif" lazyload></p>
+<p>通道数变大，从64-d到了256-d，因为直接计算的话是平方级的复杂度，会多16倍，所以进行投影到了原来的64-d。训练后再投影到256-d，这样计算复杂度会低很多。对应了Table 1.中更深层次的ResNet的设计。</p>
+<p>Table 4. 展示随着深度加深，误差越来越小：</p>
+<p><img src="/img/2022-03-06-ResNet-Notes/Tab4.png" srcset="/img/loading.gif" lazyload></p>
+<p>Table 5. 对比的是其他的方法在ImageNet测试集上的表现：</p>
+<p><img src="/img/2022-03-06-ResNet-Notes/Tab5.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="4-2-CIFAR-10-and-Analysis"><a href="#4-2-CIFAR-10-and-Analysis" class="headerlink" title="4.2. CIFAR-10 and Analysis"></a>4.2. CIFAR-10 and Analysis</h3><p>CIFAR-10的数据集上基本是32*32的小图片，比ImageNet小很多，所以在CIFAR-10层上进行了新的设计的ResNet。Table 6.展示了1000层的ResNet误差率会比100层的高一些。</p>
+<p><img src="/img/2022-03-06-ResNet-Notes/Tab6.png" srcset="/img/loading.gif" lazyload></p>
+<p>Fig 6. 主要表示的还是加入residual后效果还是比plain的网络要好很多。</p>
+<p><img src="/img/2022-03-06-ResNet-Notes/Fig6.png" srcset="/img/loading.gif" lazyload></p>
+<p>Fig 7. 表示的是随着深度的加深，Standard deviations (std) 标准差的变化。而且可以看到的是，因为有投影的过程，所以可能在改变维度形状的时候标准差也是有波动的，但是如果按照维度大小排序后，整个网络的标准差是收敛的：</p>
+<p><img src="/img/2022-03-06-ResNet-Notes/Fig7.png" srcset="/img/loading.gif" lazyload></p>
+<p>可能是因为ResNet学的是残差，在深度加深很多后没有新的东西可以学了，所以1000层的表现没有更好。</p>
+<h3 id="4-3-Object-Detection-on-PASCAL-and-MS-COCO"><a href="#4-3-Object-Detection-on-PASCAL-and-MS-COCO" class="headerlink" title="4.3. Object Detection on PASCAL and MS COCO"></a>4.3. Object Detection on PASCAL and MS COCO</h3><p>展现了在目标检测上的数据集结果页很好。Detail在Appendix里。</p>
+<p>（沐神：这篇文章没有Conclusion，全都是展示实验结果。）</p>
+<h2 id="读后笔记"><a href="#读后笔记" class="headerlink" title="读后笔记"></a>读后笔记</h2><p>沐神：</p>
+<p>在加入更多层次的网络的时候，如果训练精度更差，不如简单直观化，去学习一个更简单的内容。这篇论文没有做太多分析和数学证明，而是讲了很多实验的结果。</p>
+<p>ResNet训练起来比较快主要是因为梯度收敛保持的比较好。原先求导的过程中，每一次梯度可能是0附近的高斯分布，乘起来可能就越来越小，出现了gradient vanishing的问题，但是ResNet中相当于加了一项$g(x)$进行求导，避免了梯度消失的问题。</p>
+<p><img src="/img/2022-03-06-ResNet-Notes/Aft1.png" srcset="/img/loading.gif" lazyload></p>
+<p>在CIFAR-10上使用1000层的网络，有overfitting，但是没有特别做regularization也能保持在一个比较低的误差。“收敛没有任何意义”，但是ResNet可以一直train下去。ResNet主要是保持了一直有一个比较大的梯度，避免了SGD收敛到了一个比较不准确的位置，能够持续训练下去，所以可以得到一个比较好的结果。</p>
+<p><img src="/img/2022-03-06-ResNet-Notes/Aft2.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="简单的尝试-Pytorch官方-ResNet实例"><a href="#简单的尝试-Pytorch官方-ResNet实例" class="headerlink" title="简单的尝试 Pytorch官方 ResNet实例"></a>简单的尝试 Pytorch官方 ResNet实例</h2><p>跑了一下单张图片上使用训练好的ResNet-18的预测情况，之后跑跑在ImageNet和CIFAR-10上训练的实验。<br>主要关注：</p>
+<ol>
+<li>代码中关于Residual的和Shortcut Connection的部分的实现。</li>
+<li>如果不进行手动调Learning Rate，会持续收敛吗？沐神说的不手动调的现代的方法是什么？</li>
+</ol>
+<p><img src="/img/2022-03-06-ResNet-Notes/dog.png" srcset="/img/loading.gif" lazyload></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">论文阅读笔记</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89-CV/">计算机视觉 CV</a>
+                    
+                      <a class="hover-with-bg" href="/tags/ResNet/">ResNet</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！<br> 如果觉得文章内容不错，还请大力支持哦~<br> <div class="buttons is-centered"> <a class="button donate" data-type="wechat"><span class="icon is-small"><i class="iconfont icon-wechat-fill"></i></span><span>赞赏码</span> <span class="qrcode"><img src="/img/basic/donate.png" srcset="/img/loading.gif" lazyload alt="赞赏码"></span></a> </div>
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022-03-12-Transformer-Notes/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Transformer 论文笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022-02-25-D2L-Ch2-2/">
+                        <span class="hidden-mobile">《动手学深度学习》学习笔记 Ch.2 - 预备知识 （2.4-2.7）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"d01489e72d00bbbd006f","clientSecret":"0d56ce41df647dd34492d79df080630005dedc92","repo":"dragonbra.github.io","owner":"dragonbra","admin":["dragonbra"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: 'cf4e383f39e957ff69e1ce2d03de49ee'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     Copyright © 2021 - 2022 <a target="_blank" rel="noopener" href="https://github.com/dragonbra">Dragonbra</a> All Right Reserved .<br> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

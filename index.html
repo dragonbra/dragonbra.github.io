@@ -37,10 +37,18 @@
 
 <!-- 自定义样式保持在最底部 -->
 
+  
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/icarus-donate.css">
+<link rel="stylesheet" href="/css/scrollbar.css">
+<link rel="stylesheet" href="/css/index_img_hover.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+
+
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NDVcNrHYdR9mm1EYC3Kmk9OG-gzGzoHsz","app_key":"0mwGy9MBysfulRH8Jdk7qQrM","server_url":"https://ndvcnrhy.lc-cn-n1-shared.com"}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"dragonbra.github.io","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NDVcNrHYdR9mm1EYC3Kmk9OG-gzGzoHsz","app_key":"0mwGy9MBysfulRH8Jdk7qQrM","server_url":"https://ndvcnrhy.lc-cn-n1-shared.com"}},"search_path":"/local-search.xml"};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -48,7 +56,7 @@
 
 
 <body>
-  <header style="height: 100vh;">
+  <header style="height: 80vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -180,7 +188,7 @@
     
       <div class="container nopadding-x-md">
         <div class="py-5" id="board"
-          style=margin-top:0>
+          >
           
           <div class="container">
             <div class="row">
@@ -191,16 +199,561 @@
   <div class="row mx-auto index-card">
     
     
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022-04-12-AnalyzingMH-Notes/" target="_self">
+          <img src="/img/2022-04-12-AnalyzingMH-Notes/index.png" srcset="/img/loading.gif" lazyload alt="Analyzing Multi-Head Self-Attention 论文笔记">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022-04-12-AnalyzingMH-Notes/" target="_self">
+          Analyzing Multi-Head Self-Attention 论文笔记
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022-04-12-AnalyzingMH-Notes/" target="_self">
+          
+          
+            
+          
+          Analyzing Multi-Head Self-Attention 论文笔记论文主要信息
+标题：Analyzing Multi-Head Self-Attention: Specialized Heads Do the Heavy Lifting, the Rest Can Be Pruned
+作者：Elena Voita, David Talbot, Fedor Moiseev, Rico 
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-04-03 18:00" pubdate>
+              2022-04-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">论文阅读笔记</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+            
+              <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86-NLP/">自然语言处理 NLP</a>
+            
+              <a href="/tags/Transformer/">Transformer</a>
+            
+              <a href="/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
+            
+              <a href="/tags/%E5%89%AA%E6%9E%9D-Pruning/">剪枝 Pruning</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022-04-03-Pruning-Notes/" target="_self">
+          <img src="/img/2022-04-03-Pruning-Notes/index.png" srcset="/img/loading.gif" lazyload alt="Pruning 泛读论文笔记">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022-04-03-Pruning-Notes/" target="_self">
+          Pruning 泛读论文笔记
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022-04-03-Pruning-Notes/" target="_self">
+          
+          
+            
+          
+          Pruning 泛读论文笔记目录
+
+
+序号
+Tree
+Type
+Short
+发表日期
+会议期刊
+论文名
+代码链接
+备注
+
+
+
+1
+Pruning
+NLP压缩
+
+2019.10.14
+Arxiv
+Structured  Pruning of a BERT-based Question Answering Model
+
+
+
+
+2
+Pruning
+NLP压缩
+RPP
+2019.9.27
+Arxiv
+Re
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-04-03 18:00" pubdate>
+              2022-04-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">论文阅读笔记</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+            
+              <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86-NLP/">自然语言处理 NLP</a>
+            
+              <a href="/tags/Transformer/">Transformer</a>
+            
+              <a href="/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
+            
+              <a href="/tags/BERT/">BERT</a>
+            
+              <a href="/tags/%E5%89%AA%E6%9E%9D-Pruning/">剪枝 Pruning</a>
+            
+              <a href="/tags/%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9/">模型压缩</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022-03-26-BERT-Notes/" target="_self">
+          <img src="/img/2022-03-26-BERT-Notes/index.png" srcset="/img/loading.gif" lazyload alt="BERT 论文笔记">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022-03-26-BERT-Notes/" target="_self">
+          BERT 论文笔记
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022-03-26-BERT-Notes/" target="_self">
+          
+          
+            
+          
+          BERT 论文笔记论文主要信息
+标题：BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding
+作者：Jacob Devlin, Ming-Wei Chang, Kenton Lee, Kristina Toutanova
+机构：Google AI Language
+来源：NAACL-HLT 2
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-26 20:11" pubdate>
+              2022-03-26
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">论文阅读笔记</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+            
+              <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86-NLP/">自然语言处理 NLP</a>
+            
+              <a href="/tags/Transformer/">Transformer</a>
+            
+              <a href="/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
+            
+              <a href="/tags/BERT/">BERT</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022-03-27-GPT-Notes/" target="_self">
+          <img src="/img/2022-03-27-GPT-Notes/index.png" srcset="/img/loading.gif" lazyload alt="GPT、GPT-2、GPT-3 论文笔记">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022-03-27-GPT-Notes/" target="_self">
+          GPT、GPT-2、GPT-3 论文笔记
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022-03-27-GPT-Notes/" target="_self">
+          
+          
+            
+          
+          GPT、GPT-2、GPT-3 论文笔记论文主要信息
+标题： 
+Improving Language Understanding by Generative Pre-Training（GPT）
+Language Models are Unsupervised Multitask Learners （GPT-2）
+Language Models are Few-Shot Learners（GPT-3
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-26 20:11" pubdate>
+              2022-03-26
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">论文阅读笔记</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+            
+              <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86-NLP/">自然语言处理 NLP</a>
+            
+              <a href="/tags/Transformer/">Transformer</a>
+            
+              <a href="/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
+            
+              <a href="/tags/GPT/">GPT</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022-03-12-Transformer-Notes/" target="_self">
+          <img src="/img/2022-03-12-Transformer-Notes/index.png" srcset="/img/loading.gif" lazyload alt="Transformer 论文笔记">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022-03-12-Transformer-Notes/" target="_self">
+          Transformer 论文笔记
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022-03-12-Transformer-Notes/" target="_self">
+          
+          
+            
+          
+          Transformer 论文笔记论文主要信息
+标题：Attention Is All You Need
+作者：Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin
+机构：Google Brain, Google 
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-12 21:31" pubdate>
+              2022-03-12
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">论文阅读笔记</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+            
+              <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86-NLP/">自然语言处理 NLP</a>
+            
+              <a href="/tags/Transformer/">Transformer</a>
+            
+              <a href="/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022-03-06-ResNet-Notes/" target="_self">
+          <img src="/img/2022-03-06-ResNet-Notes/index.png" srcset="/img/loading.gif" lazyload alt="ResNet 论文笔记">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022-03-06-ResNet-Notes/" target="_self">
+          ResNet 论文笔记
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022-03-06-ResNet-Notes/" target="_self">
+          
+          
+            
+          
+          ResNet 论文笔记论文主要信息
+标题：Deep Residual Learning for Image Recognition
+简称：ResNet
+作者：Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun 
+机构：Microsoft Research
+来源：CVPR 2015
+代码：https://github.com/pytorch/visio
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-06 14:34" pubdate>
+              2022-03-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">论文阅读笔记</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+            
+              <a href="/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89-CV/">计算机视觉 CV</a>
+            
+              <a href="/tags/ResNet/">ResNet</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/02/20/2022/2022-02-20-D2L-Ch1/" target="_self">
+        <a href="/2022-02-25-D2L-Ch2-2/" target="_self">
+          《动手学深度学习》学习笔记 Ch.2 - 预备知识 （2.4-2.7）
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022-02-25-D2L-Ch2-2/" target="_self">
+          
+          
+            
+          
+          2.4. 微积分我们可以将拟合模型的任务分解为两个关键问题：
+
+优化（optimization）：用模型拟合观测数据的过程；
+泛化（generalization）：数学原理和实践者的智慧，能够指导我们生成出有效性超出用于训练的数据集本身的模型。
+
+2.4.1. 导数和微分假设我们有一个函数$f:R^n→R$，其输入和输出都是标量。 如果ff的导数存在，这个极限被定义为$$f’(x) = \lim_
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-02-25 16:03" pubdate>
+              2022-02-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E3%80%8A%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">《动手学深度学习》学习笔记</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+            
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022-02-22-D2L-Ch2-1/" target="_self">
+          《动手学深度学习》学习笔记 Ch.2 - 预备知识 （2.1-2.3）
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022-02-22-D2L-Ch2-1/" target="_self">
+          
+          
+            
+          
+          2. 预备知识要学习深度学习，首先需要先掌握一些基本技能。 所有机器学习方法都涉及从数据中提取信息。 因此，我们先学习一些关于数据的实用技能，包括存储、操作和预处理数据。
+2.1. 数据操作首先，我们介绍$n$维数组，也称为张量（tensor）。 使用过Python中NumPy计算包的读者会对本部分很熟悉。 无论使用哪个深度学习框架，它的张量类（在MXNet中为ndarray， 在PyTorch和
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-02-22 15:29" pubdate>
+              2022-02-22
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E3%80%8A%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">《动手学深度学习》学习笔记</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+            
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022-02-20-D2L-Ch1/" target="_self">
           《动手学深度学习》学习笔记 Ch.1 - 前言
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/02/20/2022/2022-02-20-D2L-Ch1/" target="_self">
+        <a href="/2022-02-20-D2L-Ch1/" target="_self">
           
           
             
@@ -232,7 +785,7 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E7%9F%A5%E8%AF%86%E4%B8%8E%E6%80%BB%E7%BB%93/">知识与总结</a>
+              <a href="/categories/%E3%80%8A%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">《动手学深度学习》学习笔记</a>
             
           </div>
         
@@ -254,21 +807,21 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/26/2021/2021-10-26-XMU-Summer-Camp/" target="_self">
-          <img src="/img/2021-10-26-XMU-Summer-Camp/XMU_beach.jpeg" srcset="/img/loading.gif" lazyload alt="2021厦门大学CS保研经历 | 夏令营游记 | MAC实验室">
+        <a href="/2021-10-26-XMU-Summer-Camp/" target="_self">
+          <img src="/img/2021-10-26-XMU-Summer-Camp/XMU_campus.jpeg" srcset="/img/loading.gif" lazyload alt="2021厦门大学CS保研经历 | 夏令营游记 | MAC实验室">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/26/2021/2021-10-26-XMU-Summer-Camp/" target="_self">
+        <a href="/2021-10-26-XMU-Summer-Camp/" target="_self">
           2021厦门大学CS保研经历 | 夏令营游记 | MAC实验室
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/26/2021/2021-10-26-XMU-Summer-Camp/" target="_self">
+        <a href="/2021-10-26-XMU-Summer-Camp/" target="_self">
           
           
             
@@ -291,7 +844,7 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%B7%A5%E4%BD%9C/">学习与工作</a>
+              <a href="/categories/%E6%97%A5%E8%AE%B0%E9%9A%8F%E7%AC%94/">日记随笔</a>
             
           </div>
         
@@ -311,69 +864,13 @@
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/07/18/2021/2021-07-18-Internship/" target="_self">
-          <img src="/img/2021-07-18-Internship/index.jpeg" srcset="/img/loading.gif" lazyload alt="我在腾讯实习的第一周 | Dragonbra的第一篇博客">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/07/18/2021/2021-07-18-Internship/" target="_self">
-          我在腾讯实习的第一周 | Dragonbra的第一篇博客
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/07/18/2021/2021-07-18-Internship/" target="_self">
-          
-          
-            
-          
-          正文前的吐槽2021-07-18的晚上，今天已经是入职后的第一个周日了，经历了两天的忙碌租房和回酒店躺尸后，我又回到了我的工位（为了夜宵券），终于有时间提笔来写这篇博客了。
-其实上周一就火急火燎地赶来深圳了，在鹅厂提供的大house住了几天才在15号去报到，究其原因，还得问问为什么我的期末考试、软件杯DDL、厦大和同济的夏令营能那么满满当当地给我排在一起……
-Day01 - 报到
-
-居然就捡到了别
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-07-18 20:28" pubdate>
-              2021-07-18
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%B7%A5%E4%BD%9C/">学习与工作</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E8%85%BE%E8%AE%AF%E5%AE%9E%E4%B9%A0/">腾讯实习</a>
-            
-              <a href="/tags/%E6%97%A5%E8%AE%B0/">日记</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
 
 
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
 
 
 

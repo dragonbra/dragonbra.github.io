@@ -1,0 +1,698 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/basic/my_avatar.jpg">
+  <link rel="icon" href="/img/basic/my_avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Dragonbra He">
+  <meta name="keywords" content="程序员, 音游, 研究生, CV, 厦门大学">
+  
+  <title>《动手学深度学习》学习笔记 Ch.2 - 预备知识 （2.4-2.7） | dragonbra&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/icarus-donate.css">
+<link rel="stylesheet" href="/css/scrollbar.css">
+<link rel="stylesheet" href="/css/index_img_hover.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"dragonbra.github.io","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NDVcNrHYdR9mm1EYC3Kmk9OG-gzGzoHsz","app_key":"0mwGy9MBysfulRH8Jdk7qQrM","server_url":"https://ndvcnrhy.lc-cn-n1-shared.com"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 80vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Dragonbra's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/basic/index_banner.jpeg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.6)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="《动手学深度学习》学习笔记 Ch.2 - 预备知识 （2.4-2.7）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-02-25 16:03" pubdate>
+        2022年2月25日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      32
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">《动手学深度学习》学习笔记 Ch.2 - 预备知识 （2.4-2.7）</h1>
+            
+            <div class="markdown-body">
+              <h2 id="2-4-微积分"><a href="#2-4-微积分" class="headerlink" title="2.4. 微积分"></a>2.4. 微积分</h2><p>我们可以将拟合模型的任务分解为两个关键问题：</p>
+<ul>
+<li><em>优化</em>（optimization）：用模型拟合观测数据的过程；</li>
+<li><em>泛化</em>（generalization）：数学原理和实践者的智慧，能够指导我们生成出有效性超出用于训练的数据集本身的模型。</li>
+</ul>
+<h3 id="2-4-1-导数和微分"><a href="#2-4-1-导数和微分" class="headerlink" title="2.4.1. 导数和微分"></a>2.4.1. 导数和微分</h3><p>假设我们有一个函数$f:R^n→R$，其输入和输出都是标量。 如果ff的<em>导数</em>存在，这个极限被定义为<br>$$<br>f’(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}<br>$$<br>如果$f’(a)$存在，则称$f$在$a$处是<em>可微</em>（differentiable）的。如果$f$在一个区间内的每个数上都是可微的，则此函数在此区间中是可微的。 我们可以将 <a target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_preliminaries/calculus.html#equation-eq-derivative">(2.4.1)</a>中的导数$f′(x)$解释为$f(x)$相对于$x$的<em>瞬时</em>（instantaneous）变化率。 所谓的瞬时变化率是基于$x$中的变化$h$，且$h$接近$0$。</p>
+<p>给定$y=f(x)$，其中$x$和$y$分别是函数$f$的自变量和因变量。以下表达式是等价的：<br>$$<br>f’(x) = y’ = \frac{dy}{dx} = \frac{df}{dx} =  = \frac{d}{dx}f(x) = Df(x) = D_xf(x)<br>$$<br>为了微分一个由一些常见函数组成的函数，下面的一些法则方便使用。 假设函数$f$和$g$都是可微的，$C$是一个常数，则：</p>
+<ol>
+<li>常数相乘法则</li>
+</ol>
+<p>$$<br>\frac{d}{dx}|Cf(x)| = C\frac{d}{dx}f(x)<br>$$</p>
+<ol start="2">
+<li>加法法则</li>
+</ol>
+<p>$$<br>\frac{d}{dx}|f(x) + g(x)| = \frac{d}{dx}f(x) + \frac{d}{dx}g(x)<br>$$</p>
+<ol start="3">
+<li>乘法法则</li>
+</ol>
+<p>$$<br>\frac{d}{dx}|f(x)g(x)| = f(x)\frac{d}{dx}|g(x)| + g(x)\frac{d}{dx}|f(x)|<br>$$</p>
+<ol start="4">
+<li>除法法则</li>
+</ol>
+<p>$$<br>\frac{d}{dx}[\frac{f(x)}{g(x)}] = \frac{g(x)\frac{d}{dx}|f(x)| - f(x) \frac{d}{dx}|g(x)| }{ |g(x)|^2 }<br>$$</p>
+<h3 id="2-4-2-偏导数"><a href="#2-4-2-偏导数" class="headerlink" title="2.4.2. 偏导数"></a>2.4.2. 偏导数</h3><p>到目前为止，我们只讨论了仅含一个变量的函数的微分。 在深度学习中，函数通常依赖于许多变量。 因此，我们需要将微分的思想推广到<em>多元函数</em>（multivariate function）上。</p>
+<p>设$y=f(x_1,x_2,…,x_n)$是一个具有$n$个变量的函数。 $y$关于第$i$个参数$x_i$的<em>偏导数</em>（partial derivative）为：<br>$$<br>\frac{\partial y}{\partial x_i} = \lim_{h \to 0} \frac{f(x_1, …, x_{i-1}, x_i+h, x_{i+1},…,x_n) - f(x_1, …, x_i, …, x_n)}{h}<br>$$<br>为了计算$\frac{\partial y}{\partial x_i} $， 我们可以简单地将$x_1,…,x_{i−1},x_{i+1},…,x_n$看作常数， 并计算$y$关于$x_i$的导数。 对于偏导数的表示，以下是等价的：<br>$$<br>\frac{\partial y}{\partial x_i} = \frac{\partial f}{\partial x_i} = f_{x_i} = f_i = D_if = D_{x_i}f<br>$$</p>
+<h3 id="2-4-3-梯度"><a href="#2-4-3-梯度" class="headerlink" title="2.4.3. 梯度"></a>2.4.3. 梯度</h3><p>我们可以连结一个多元函数对其所有变量的偏导数，以得到该函数的<em>梯度</em>（gradient）向量。 具体而言，设函数$f:R^n→R$的输入是 一个$n$维向量$x=[x_1,x_2,…,x_n]^T$，并且输出是一个标量。 函数$f(x)$相对于$x$的梯度是一个包含$n$个偏导数的向量:<br>$$<br>\nabla _xf(x) = [\frac{\partial f(x)}{\partial x_1},\frac{\partial f(x)}{\partial x_2}, …, \frac{\partial f(x)}{\partial x_n}]^T<br>$$<br>其中$∇_xf(x)$通常在没有歧义时被$∇f(x)$取代。</p>
+<p>假设$x$为$n$维向量，在微分多元函数时经常使用以下规则:</p>
+<ul>
+<li>对于所有$A∈R^{m×n}$，都有$∇_xAx=A^T$</li>
+<li>对于所有$A∈R^{n×m}$，都有$∇_xx^TA=A$</li>
+<li>对于所有$A∈R^{n×n}$，都有$∇_xx^TAx=(A+A^T)x$</li>
+<li>$∇_x||x||^2=∇_xx^Tx=2x$</li>
+</ul>
+<p>同样，对于任何矩阵$X$，都有$∇_X∥X∥^2_F=2X$。 正如我们之后将看到的，梯度对于设计深度学习中的优化算法有很大用处。</p>
+<h3 id="2-4-4-链式法则"><a href="#2-4-4-链式法则" class="headerlink" title="2.4.4. 链式法则"></a>2.4.4. 链式法则</h3><p>在深度学习中，多元函数通常是<em>复合</em>（composite）的， 所以我们可能没法应用上述任何规则来微分这些函数。 幸运的是，链式法则使我们能够微分复合函数。</p>
+<p>假设函数$y=f(u)$和$u=g(x)$都是可微的，根据链式法则：<br>$$<br>\frac{\mathrm{d} y}{\mathrm{d} x} = \frac{\mathrm{d} y}{\mathrm{d} u} \frac{\mathrm{d} u}{\mathrm{d} x}<br>$$<br>假设可微分函数$y$有变量$u_1,u_2,…,u_m$，其中每个可微分函数$u_i$都有变量$x_1,x_2,…,x_n$。 注意，$y$是$x_1,x_2，…,x_n$的函数。 对于任意$i=1,2,…,n$，链式法则给出：<br>$$<br>\frac{\mathrm{d} y}{\mathrm{d} x_i} = \frac{\mathrm{d} y}{\mathrm{d} u_1} \frac{\mathrm{d} u_1}{\mathrm{d} x_i}+ \frac{\mathrm{d} y}{\mathrm{d} u_2} \frac{\mathrm{d} u_2}{\mathrm{d} x_i}  + … + \frac{\mathrm{d} y}{\mathrm{d} u_m} \frac{\mathrm{d} u_m}{\mathrm{d} x_i}<br>$$</p>
+<h3 id="2-4-5-小结"><a href="#2-4-5-小结" class="headerlink" title="2.4.5. 小结"></a>2.4.5. 小结</h3><ul>
+<li>微分和积分是微积分的两个分支，前者可以应用于深度学习中的优化问题。</li>
+<li>导数可以被解释为函数相对于其变量的瞬时变化率，它也是函数曲线的切线的斜率。</li>
+<li>梯度是一个向量，其分量是多变量函数相对于其所有变量的偏导数。</li>
+<li>链式法则使我们能够微分复合函数。</li>
+</ul>
+<h2 id="2-5-自动微分"><a href="#2-5-自动微分" class="headerlink" title="2.5. 自动微分"></a>2.5. 自动微分</h2><p>深度学习框架通过自动计算导数，即<em>自动微分</em>（automatic differentiation）来加快求导。</p>
+<p> 实际中，根据我们设计的模型，系统会构建一个<em>计算图</em>（computational graph）， 来跟踪计算是哪些数据通过哪些操作组合起来产生输出。 自动微分使系统能够随后反向传播梯度。 这里，<em>反向传播</em>（backpropagate）意味着跟踪整个计算图，填充关于每个参数的偏导数。</p>
+<h3 id="2-5-1-一个简单的例子"><a href="#2-5-1-一个简单的例子" class="headerlink" title="2.5.1. 一个简单的例子"></a>2.5.1. 一个简单的例子</h3><p>作为一个演示例子，假设我们想对函数$y=2x^Tx$关于列向量$x$求导。 </p>
+<p>首先，我们创建变量<code>x</code>并为其分配一个初始值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><br>x = torch.arange(<span class="hljs-number">4.0</span>)<br>x<br><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">tensor([0., 1., 2., 3.])</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>在我们计算$y$关于$x$的梯度之前，我们需要一个地方来存储梯度。</p>
+<p> 重要的是，我们不会在每次对一个参数求导时都分配新的内存。 因为我们经常会成千上万次地更新相同的参数，每次都分配新的内存可能很快就会将内存耗尽。 </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">x.requires_grad_(<span class="hljs-literal">True</span>)  <span class="hljs-comment"># 等价于x=torch.arange(4.0,requires_grad=True)</span><br>x.grad  <span class="hljs-comment"># 默认值是None</span><br><br><span class="hljs-comment"># 现在让我们计算y。</span><br>y = <span class="hljs-number">2</span> * torch.dot(x, x)<br>y<br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">tensor(28., grad_fn=&lt;MulBackward0&gt;)</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>x</code>是一个长度为4的向量，计算<code>x</code>和<code>x</code>的点积，得到了我们赋值给<code>y</code>的标量输出。 接下来，我们通过调用反向传播函数来自动计算<code>y</code>关于<code>x</code>每个分量的梯度，并打印这些梯度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">y.backward()<br>x.grad<br><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">tensor([ 0.,  4.,  8., 12.])</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>函数$y=2x^Tx$关于$x$的梯度应为$4x$。 让我们快速验证这个梯度是否计算正确。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">x.grad == <span class="hljs-number">4</span> * x<br><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">tensor([True, True, True, True])</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>现在让我们计算<code>x</code>的另一个函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 在默认情况下，PyTorch会累积梯度，我们需要清除之前的值</span><br>x.grad.zero_()<br>y = x.<span class="hljs-built_in">sum</span>()<br>y.backward()<br>x.grad<br><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">tensor([1., 1., 1., 1.])</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-5-2-非标量变量的反向传播"><a href="#2-5-2-非标量变量的反向传播" class="headerlink" title="2.5.2. 非标量变量的反向传播"></a>2.5.2. 非标量变量的反向传播</h3><p>当<code>y</code>不是标量时，向量<code>y</code>关于向量<code>x</code>的导数的最自然解释是一个矩阵。 对于高阶和高维的<code>y</code>和<code>x</code>，求导的结果可以是一个高阶张量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 对非标量调用backward需要传入一个gradient参数，该参数指定微分函数关于self的梯度。</span><br><span class="hljs-comment"># 在我们的例子中，我们只想求偏导数的和，所以传递一个1的梯度是合适的</span><br>x.grad.zero_()<br>y = x * x<br><span class="hljs-comment"># 等价于y.backward(torch.ones(len(x)))</span><br>y.<span class="hljs-built_in">sum</span>().backward()<br>x.grad<br><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">tensor([0., 2., 4., 6.])</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-5-3-分离计算"><a href="#2-5-3-分离计算" class="headerlink" title="2.5.3. 分离计算"></a>2.5.3. 分离计算</h3><p>有时，我们希望将某些计算移动到记录的计算图之外。 例如，假设<code>y</code>是作为<code>x</code>的函数计算的，而<code>z</code>则是作为<code>y</code>和<code>x</code>的函数计算的。 想象一下，我们想计算<code>z</code>关于<code>x</code>的梯度，但由于某种原因，我们希望将<code>y</code>视为一个常数， 并且只考虑到<code>x</code>在<code>y</code>被计算后发挥的作用。</p>
+<p>在这里，我们可以分离<code>y</code>来返回一个新变量<code>u</code>，该变量与<code>y</code>具有相同的值， 但丢弃计算图中如何计算<code>y</code>的任何信息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">x.grad.zero_()<br>y = x * x<br>u = y.detach()<br>z = u * x<br><br>z.<span class="hljs-built_in">sum</span>().backward()<br>x.grad == u<br><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">tensor([True, True, True, True])</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>由于记录了<code>y</code>的计算结果，我们可以随后在<code>y</code>上调用反向传播， 得到<code>y=x*x</code>关于的<code>x</code>的导数，即<code>2*x</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">x.grad.zero_()<br>y.<span class="hljs-built_in">sum</span>().backward()<br>x.grad == <span class="hljs-number">2</span> * x<br><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">tensor([True, True, True, True])</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-5-4-Python控制流的梯度计算"><a href="#2-5-4-Python控制流的梯度计算" class="headerlink" title="2.5.4. Python控制流的梯度计算"></a>2.5.4. Python控制流的梯度计算</h3><p>（个人理解是：Pytorch在自动微分的应用是，一个数学函数可以由Python的函数来定义）</p>
+<p>使用自动微分的一个好处是： 即使构建函数的计算图需要通过Python控制流（例如，条件、循环或任意函数调用），我们仍然可以计算得到的变量的梯度。 在下面的代码中，<code>while</code>循环的迭代次数和<code>if</code>语句的结果都取决于输入<code>a</code>的值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">f</span>(<span class="hljs-params">a</span>):</span><br>    b = a * <span class="hljs-number">2</span><br>    <span class="hljs-keyword">while</span> b.norm() &lt; <span class="hljs-number">1000</span>:<br>        b = b * <span class="hljs-number">2</span><br>    <span class="hljs-keyword">if</span> b.<span class="hljs-built_in">sum</span>() &gt; <span class="hljs-number">0</span>:<br>        c = b<br>    <span class="hljs-keyword">else</span>:<br>        c = <span class="hljs-number">100</span> * b<br>    <span class="hljs-keyword">return</span> c<br></code></pre></td></tr></table></figure>
+
+<p>让我们计算梯度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">a = torch.randn(size=(), requires_grad=<span class="hljs-literal">True</span>)<br>d = f(a)<br>d.backward()<br></code></pre></td></tr></table></figure>
+
+<p>我们现在可以分析上面定义的<code>f</code>函数。 请注意，它在其输入<code>a</code>中是分段线性的。 换言之，对于任何<code>a</code>，存在某个常量标量<code>k</code>，使得<code>f(a)=k*a</code>，其中<code>k</code>的值取决于输入<code>a</code>。 因此，我们可以用<code>d/a</code>验证梯度是否正确。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">a.grad == d / a<br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">tensor(True)</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-5-5-小结"><a href="#2-5-5-小结" class="headerlink" title="2.5.5. 小结"></a>2.5.5. 小结</h3><ul>
+<li>深度学习框架可以自动计算导数：我们首先将梯度附加到想要对其计算偏导数的变量上。然后我们记录目标值的计算，执行它的反向传播函数，并访问得到的梯度。</li>
+</ul>
+<h2 id="2-6-概率"><a href="#2-6-概率" class="headerlink" title="2.6. 概率"></a>2.6. 概率</h2><h3 id="2-6-1-基本概率论"><a href="#2-6-1-基本概率论" class="headerlink" title="2.6.1. 基本概率论"></a>2.6.1. 基本概率论</h3><p> 对于每个骰子，我们将观察到$\lbrace  1,…,6 \rbrace$中的一个值。对于每个值，一种自然的方法是将它出现的次数除以投掷的总次数， 即此<em>事件</em>（event）概率的<em>估计值</em>。 <em>大数定律</em>（law of large numbers）告诉我们： 随着投掷次数的增加，这个估计值会越来越接近真实的潜在概率。</p>
+<p>在统计学中，我们把从概率分布中抽取样本的过程称为<em>抽样</em>（sampling）。 笼统来说，可以把<em>分布</em>（distribution）看作是对事件的概率分配， 稍后我们将给出的更正式定义。 将概率分配给一些离散选择的分布称为<em>多项分布</em>（multinomial distribution）。</p>
+<h4 id="2-6-1-1-概率论公理"><a href="#2-6-1-1-概率论公理" class="headerlink" title="2.6.1.1. 概率论公理"></a>2.6.1.1. 概率论公理</h4><p>在处理骰子掷出时，我们将集合$S=\lbrace 1,2,3,4,5,6 \rbrace$称为<em>样本空间</em>（sample space）或<em>结果空间</em>（outcome space）， 其中每个元素都是<em>结果</em>（outcome）。 <em>事件</em>（event）是一组给定样本空间的随机结果。 </p>
+<p><em>概率</em>（probability）可以被认为是将集合映射到真实值的函数。 在给定的样本空间$S$中，事件$A$的概率， 表示为$P(A)$，满足以下属性：</p>
+<ul>
+<li>对于任意事件$A$，其概率从不会是负数，即$P(A)≥0$；</li>
+<li>整个样本空间的概率为$1$，即$P(S)=1$；</li>
+<li>对于<em>互斥</em>（mutually exclusive）事件（对于所有$i≠j$都有$A_i∩A_j=∅$）的任意一个可数序列$A1,A2,…$，序列中任意一个事件发生的概率等于它们各自发生的概率之和，即$P(⋃^∞_{i=1}A_i)=∑^∞_{i=1}P(A_i) $。</li>
+</ul>
+<p>以上也是概率论的公理，由科尔莫戈罗夫于1933年提出。有了这个公理系统，我们可以避免任何关于随机性的哲学争论； 相反，我们可以用数学语言严格地推理。 例如，假设事件$A_1$为整个样本空间， 且当所有$i&gt;1$时的$A_i=∅$， 那么我们可以证明$P(∅)=0$，即不可能发生事件的概率是0。</p>
+<h4 id="2-6-1-2-随机变量"><a href="#2-6-1-2-随机变量" class="headerlink" title="2.6.1.2. 随机变量"></a>2.6.1.2. 随机变量</h4><p>在我们掷骰子的随机实验中，我们引入了<em>随机变量</em>（random variable）的概念。随机变量几乎可以是任何数量，并且它可以在随机实验的一组可能性中取一个值。 考虑一个随机变量$X$，其值在掷骰子的样本空间$S=\left{ 1,2,3,4,5,6 \rbrace$中。 我们可以将事件“看到一个$5$”表示为$\left{X=5\right}$或$(X=5)$， 其概率表示为$P\left{X=5\right}$或$P(X=5)$。 </p>
+<h3 id="2-6-2-处理多个随机变量"><a href="#2-6-2-处理多个随机变量" class="headerlink" title="2.6.2. 处理多个随机变量"></a>2.6.2. 处理多个随机变量</h3><h4 id="2-6-2-1-联合概率"><a href="#2-6-2-1-联合概率" class="headerlink" title="2.6.2.1. 联合概率"></a>2.6.2.1. 联合概率</h4><p><em>联合概率</em>（joint probability）$P(A=a,B=b)$。 给定任意值$a$和$b$，联合概率可以回答：$A=a$和$B=b$同时满足的概率是多少？ </p>
+<h4 id="2-6-2-2-条件概率"><a href="#2-6-2-2-条件概率" class="headerlink" title="2.6.2.2. 条件概率"></a>2.6.2.2. 条件概率</h4><p>联合概率的不等式带给我们一个有趣的比率： $0≤\frac{P(A=a,B=b)}{P(A=a)}≤1$。 我们称这个比率为<em>条件概率</em>（conditional probability）， 并用$P(B=b∣A=a)$表示它：它是$B=b$的概率，前提是$A=a$已发生。</p>
+<h4 id="2-6-2-3-贝叶斯定理"><a href="#2-6-2-3-贝叶斯定理" class="headerlink" title="2.6.2.3. 贝叶斯定理"></a>2.6.2.3. 贝叶斯定理</h4><p>使用条件概率的定义，我们可以得出统计学中最有用的方程之一： <em>Bayes定理</em>（Bayes’ theorem）。 根据<em>乘法法则</em>（multiplication rule ）可得到$P(A,B)=P(B∣A)P(A)$。 根据对称性，可得到$P(A,B)=P(A∣B)P(B)$。 假设$P(B)&gt;0$，求解其中一个条件变量，我们得到<br>$$<br>P(A|B) = \frac{P(B|A)P(A)}{P(B)}<br>$$<br>请注意，这里我们使用紧凑的表示法： 其中$P(A,B)$是一个<em>联合分布</em>（joint distribution）， $P(A∣B)$是一个<em>条件分布</em>（conditional distribution）。 这种分布可以在给定值$A=a,B=b$上进行求值。</p>
+<h4 id="2-6-2-4-边际化"><a href="#2-6-2-4-边际化" class="headerlink" title="2.6.2.4. 边际化"></a>2.6.2.4. 边际化</h4><p>为了能进行事件概率求和，我们需要<em>求和法则</em>（sum rule）， 即$B$的概率相当于计算$A$的所有可能选择，并将所有选择的联合概率聚合在一起：<br>$$<br>P(B) = \sum_{A}P(A,B)<br>$$<br>这也称为<em>边际化</em>（marginalization）。 边际化结果的概率或分布称为<em>边际概率</em>（marginal probability） 或<em>边际分布</em>（marginal distribution）。</p>
+<h4 id="2-6-2-5-独立性"><a href="#2-6-2-5-独立性" class="headerlink" title="2.6.2.5. 独立性"></a>2.6.2.5. 独立性</h4><p>另一个有用属性是<em>依赖</em>（dependence）与<em>独立</em>（independence）。 如果两个随机变量$A$和$B$是独立的，意味着事件AA的发生跟BB事件的发生无关。 在这种情况下，统计学家通常将这一点表述为$A⊥B$。 根据贝叶斯定理，马上就能同样得到$P(A∣B)=P(A)$。</p>
+<h4 id="2-6-2-6-应用"><a href="#2-6-2-6-应用" class="headerlink" title="2.6.2.6. 应用"></a>2.6.2.6. 应用</h4><p>是一个计算题的例子，略</p>
+<h3 id="2-6-3-期望和方差"><a href="#2-6-3-期望和方差" class="headerlink" title="2.6.3. 期望和方差"></a>2.6.3. 期望和方差</h3><p>为了概括概率分布的关键特征，我们需要一些测量方法。 一个随机变量XX的<em>期望</em>（expectation，或平均值（average））表示为<br>$$<br>E|X| = \sum_{x}xP(X=x)<br>$$<br>当函数$f(x)$的输入是从分布$P$中抽取的随机变量时，$f(x)$的期望值为<br>$$<br>E_{x∼P}[f(x)]=\sum_{x}f(x)P(x).<br>$$<br>在许多情况下，我们希望衡量随机变量$X$与其期望值的偏置。这可以通过方差来量化<br>$$<br>Var[X]=E[(X−E[X])^2]=E[X^2]−E[X]^2.<br>$$<br>方差的平方根被称为<em>标准差</em>（standard deviation）。 随机变量函数的方差衡量的是：当从该随机变量分布中采样不同值$x$时， 函数值偏离该函数的期望的程度：<br>$$<br>Var[f(x)]=E[(f(x)−E[f(x)])^2].<br>$$</p>
+<h3 id="2-6-4-小结"><a href="#2-6-4-小结" class="headerlink" title="2.6.4. 小结"></a>2.6.4. 小结</h3><ul>
+<li>我们可以从概率分布中采样。</li>
+<li>我们可以使用联合分布、条件分布、Bayes定理、边缘化和独立性假设来分析多个随机变量。</li>
+<li>期望和方差为概率分布的关键特征的概括提供了实用的度量形式。</li>
+</ul>
+<h2 id="2-7-查阅文档"><a href="#2-7-查阅文档" class="headerlink" title="2.7. 查阅文档"></a>2.7. 查阅文档</h2><p>由于本书篇幅限制，我们不可能介绍每一个PyTorch函数和类（你可能也不希望我们这样做）。 API文档、其他教程和示例提供了本书之外的大量文档。 在本节中，我们为你提供了一些查看PyTorch API的指导。</p>
+<h3 id="2-7-1-查找模块中的所有函数和类"><a href="#2-7-1-查找模块中的所有函数和类" class="headerlink" title="2.7.1. 查找模块中的所有函数和类"></a>2.7.1. 查找模块中的所有函数和类</h3><p>为了知道模块中可以调用哪些函数和类，我们调用<code>dir</code>函数。 例如，我们可以查询随机数生成模块中的所有属性：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">dir</span>(torch.distributions))<br><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">[&#x27;AbsTransform&#x27;, &#x27;AffineTransform&#x27;, &#x27;Bernoulli&#x27;, &#x27;Beta&#x27;, &#x27;Binomial&#x27;, &#x27;CatTransform&#x27;, &#x27;Categorical&#x27;, &#x27;Cauchy&#x27;, &#x27;Chi2&#x27;, &#x27;ComposeTransform&#x27;, &#x27;ContinuousBernoulli&#x27;, &#x27;CorrCholeskyTransform&#x27;, &#x27;Dirichlet&#x27;, &#x27;Distribution&#x27;, &#x27;ExpTransform&#x27;, &#x27;Exponential&#x27;, &#x27;ExponentialFamily&#x27;, &#x27;FisherSnedecor&#x27;, &#x27;Gamma&#x27;, &#x27;Geometric&#x27;, &#x27;Gumbel&#x27;, &#x27;HalfCauchy&#x27;, &#x27;HalfNormal&#x27;, &#x27;Independent&#x27;, &#x27;IndependentTransform&#x27;, &#x27;Kumaraswamy&#x27;, &#x27;LKJCholesky&#x27;, &#x27;Laplace&#x27;, &#x27;LogNormal&#x27;, &#x27;LogisticNormal&#x27;, &#x27;LowRankMultivariateNormal&#x27;, &#x27;LowerCholeskyTransform&#x27;, &#x27;MixtureSameFamily&#x27;, &#x27;Multinomial&#x27;, &#x27;MultivariateNormal&#x27;, &#x27;NegativeBinomial&#x27;, &#x27;Normal&#x27;, &#x27;OneHotCategorical&#x27;, &#x27;OneHotCategoricalStraightThrough&#x27;, &#x27;Pareto&#x27;, &#x27;Poisson&#x27;, &#x27;PowerTransform&#x27;, &#x27;RelaxedBernoulli&#x27;, &#x27;RelaxedOneHotCategorical&#x27;, &#x27;ReshapeTransform&#x27;, &#x27;SigmoidTransform&#x27;, &#x27;SoftmaxTransform&#x27;, &#x27;StackTransform&#x27;, &#x27;StickBreakingTransform&#x27;, &#x27;StudentT&#x27;, &#x27;TanhTransform&#x27;, &#x27;Transform&#x27;, &#x27;TransformedDistribution&#x27;, &#x27;Uniform&#x27;, &#x27;VonMises&#x27;, &#x27;Weibull&#x27;, &#x27;__all__&#x27;, &#x27;__builtins__&#x27;, &#x27;__cached__&#x27;, &#x27;__doc__&#x27;, &#x27;__file__&#x27;, &#x27;__loader__&#x27;, &#x27;__name__&#x27;, &#x27;__package__&#x27;, &#x27;__path__&#x27;, &#x27;__spec__&#x27;, &#x27;bernoulli&#x27;, &#x27;beta&#x27;, &#x27;biject_to&#x27;, &#x27;binomial&#x27;, &#x27;categorical&#x27;, &#x27;cauchy&#x27;, &#x27;chi2&#x27;, &#x27;constraint_registry&#x27;, &#x27;constraints&#x27;, &#x27;continuous_bernoulli&#x27;, &#x27;dirichlet&#x27;, &#x27;distribution&#x27;, &#x27;exp_family&#x27;, &#x27;exponential&#x27;, &#x27;fishersnedecor&#x27;, &#x27;gamma&#x27;, &#x27;geometric&#x27;, &#x27;gumbel&#x27;, &#x27;half_cauchy&#x27;, &#x27;half_normal&#x27;, &#x27;identity_transform&#x27;, &#x27;independent&#x27;, &#x27;kl&#x27;, &#x27;kl_divergence&#x27;, &#x27;kumaraswamy&#x27;, &#x27;laplace&#x27;, &#x27;lkj_cholesky&#x27;, &#x27;log_normal&#x27;, &#x27;logistic_normal&#x27;, &#x27;lowrank_multivariate_normal&#x27;, &#x27;mixture_same_family&#x27;, &#x27;multinomial&#x27;, &#x27;multivariate_normal&#x27;, &#x27;negative_binomial&#x27;, &#x27;normal&#x27;, &#x27;one_hot_categorical&#x27;, &#x27;pareto&#x27;, &#x27;poisson&#x27;, &#x27;register_kl&#x27;, &#x27;relaxed_bernoulli&#x27;, &#x27;relaxed_categorical&#x27;, &#x27;studentT&#x27;, &#x27;transform_to&#x27;, &#x27;transformed_distribution&#x27;, &#x27;transforms&#x27;, &#x27;uniform&#x27;, &#x27;utils&#x27;, &#x27;von_mises&#x27;, &#x27;weibull&#x27;]</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>通常，我们可以忽略以“<code>__</code>”（双下划线）开始和结束的函数（它们是Python中的特殊对象）， 或以单个“<code>_</code>”（单下划线）开始的函数（它们通常是内部函数）。 根据剩余的函数名或属性名，我们可能会猜测这个模块提供了各种生成随机数的方法， 包括从均匀分布（<code>uniform</code>）、正态分布（<code>normal</code>）和多项分布（<code>multinomial</code>）中采样。</p>
+<h3 id="2-7-2-查找特定函数和类的用法"><a href="#2-7-2-查找特定函数和类的用法" class="headerlink" title="2.7.2. 查找特定函数和类的用法"></a>2.7.2. 查找特定函数和类的用法</h3><p>有关如何使用给定函数或类的更具体说明，我们可以调用<code>help</code>函数。 例如，我们来查看张量<code>ones</code>函数的用法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">help</span>(torch.ones)<br><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">Help on built-in function ones:</span><br><span class="hljs-string"></span><br><span class="hljs-string">ones(...)</span><br><span class="hljs-string">    ones(*size, *, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) -&gt; Tensor</span><br><span class="hljs-string"></span><br><span class="hljs-string">    Returns a tensor filled with the scalar value 1, with the shape defined</span><br><span class="hljs-string">    by the variable argument size.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    Args:</span><br><span class="hljs-string">        size (int...): a sequence of integers defining the shape of the output tensor.</span><br><span class="hljs-string">            Can be a variable number of arguments or a collection like a list or tuple.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    Keyword arguments:</span><br><span class="hljs-string">        out (Tensor, optional): the output tensor.</span><br><span class="hljs-string">        dtype (torch.dtype, optional): the desired data type of returned tensor.</span><br><span class="hljs-string">            Default: if None, uses a global default (see torch.set_default_tensor_type()).</span><br><span class="hljs-string">        layout (torch.layout, optional): the desired layout of returned Tensor.</span><br><span class="hljs-string">            Default: torch.strided.</span><br><span class="hljs-string">        device (torch.device, optional): the desired device of returned tensor.</span><br><span class="hljs-string">            Default: if None, uses the current device for the default tensor type</span><br><span class="hljs-string">            (see torch.set_default_tensor_type()). device will be the CPU</span><br><span class="hljs-string">            for CPU tensor types and the current CUDA device for CUDA tensor types.</span><br><span class="hljs-string">        requires_grad (bool, optional): If autograd should record operations on the</span><br><span class="hljs-string">            returned tensor. Default: False.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    Example::</span><br><span class="hljs-string"></span><br><span class="hljs-string">        &gt;&gt;&gt; torch.ones(2, 3)</span><br><span class="hljs-string">        tensor([[ 1.,  1.,  1.],</span><br><span class="hljs-string">                [ 1.,  1.,  1.]])</span><br><span class="hljs-string"></span><br><span class="hljs-string">        &gt;&gt;&gt; torch.ones(5)</span><br><span class="hljs-string">        tensor([ 1.,  1.,  1.,  1.,  1.])</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>在Jupyter记事本中，我们可以使用<code>?</code>指令在另一个浏览器窗口中显示文档。 例如，<code>list?</code>指令将创建与<code>help(list)</code>指令几乎相同的内容，并在新的浏览器窗口中显示它。 此外，如果我们使用两个问号，如<code>list??</code>，将显示实现该函数的Python代码。</p>
+<h3 id="2-7-3-小结"><a href="#2-7-3-小结" class="headerlink" title="2.7.3. 小结"></a>2.7.3. 小结</h3><ul>
+<li>官方文档提供了本书之外的大量描述和示例。</li>
+<li>我们可以通过调用<code>dir</code>和<code>help</code>函数或在Jupyter记事本中使用<code>?</code>和<code>??</code>查看API的用法文档。</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E3%80%8A%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">《动手学深度学习》学习笔记</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！<br> 如果觉得文章内容不错，还请大力支持哦~<br> <div class="buttons is-centered"> <a class="button donate" data-type="wechat"><span class="icon is-small"><i class="iconfont icon-wechat-fill"></i></span><span>赞赏码</span> <span class="qrcode"><img src="/img/basic/donate.png" srcset="/img/loading.gif" lazyload alt="赞赏码"></span></a> </div>
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022-03-06-ResNet-Notes/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ResNet 论文笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022-02-22-D2L-Ch2-1/">
+                        <span class="hidden-mobile">《动手学深度学习》学习笔记 Ch.2 - 预备知识 （2.1-2.3）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"d01489e72d00bbbd006f","clientSecret":"0d56ce41df647dd34492d79df080630005dedc92","repo":"dragonbra.github.io","owner":"dragonbra","admin":["dragonbra"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: 'aa742a14566313e0677c7994c7519db6'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     Copyright © 2021 - 2022 <a target="_blank" rel="noopener" href="https://github.com/dragonbra">Dragonbra</a> All Right Reserved .<br> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

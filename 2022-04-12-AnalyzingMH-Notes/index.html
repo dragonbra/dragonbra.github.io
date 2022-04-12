@@ -1,0 +1,675 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/basic/my_avatar.jpg">
+  <link rel="icon" href="/img/basic/my_avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Dragonbra He">
+  <meta name="keywords" content="程序员, 音游, 研究生, CV, 厦门大学">
+  
+  <title>Analyzing Multi-Head Self-Attention 论文笔记 | dragonbra&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/icarus-donate.css">
+<link rel="stylesheet" href="/css/scrollbar.css">
+<link rel="stylesheet" href="/css/index_img_hover.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"dragonbra.github.io","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NDVcNrHYdR9mm1EYC3Kmk9OG-gzGzoHsz","app_key":"0mwGy9MBysfulRH8Jdk7qQrM","server_url":"https://ndvcnrhy.lc-cn-n1-shared.com"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 80vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Dragonbra's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/2022-04-12-AnalyzingMH-Notes/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.6)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Analyzing Multi-Head Self-Attention 论文笔记">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-03 18:00" pubdate>
+        2022年4月3日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      22
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Analyzing Multi-Head Self-Attention 论文笔记</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Analyzing-Multi-Head-Self-Attention-论文笔记"><a href="#Analyzing-Multi-Head-Self-Attention-论文笔记" class="headerlink" title="Analyzing Multi-Head Self-Attention 论文笔记"></a>Analyzing Multi-Head Self-Attention 论文笔记</h1><h2 id="论文主要信息"><a href="#论文主要信息" class="headerlink" title="论文主要信息"></a>论文主要信息</h2><ul>
+<li>标题：Analyzing Multi-Head Self-Attention: Specialized Heads Do the Heavy Lifting, the Rest Can Be Pruned</li>
+<li>作者：<a target="_blank" rel="noopener" href="https://arxiv.org/search/cs?searchtype=author&query=Voita,+E">Elena Voita</a>, <a target="_blank" rel="noopener" href="https://arxiv.org/search/cs?searchtype=author&query=Talbot,+D">David Talbot</a>, <a target="_blank" rel="noopener" href="https://arxiv.org/search/cs?searchtype=author&query=Moiseev,+F">Fedor Moiseev</a>, <a target="_blank" rel="noopener" href="https://arxiv.org/search/cs?searchtype=author&query=Sennrich,+R">Rico Sennrich</a>, <a target="_blank" rel="noopener" href="https://arxiv.org/search/cs?searchtype=author&query=Titov,+I">Ivan Titov</a></li>
+<li>机构：Yandex, Russia; University of Amsterdam, Netherlands</li>
+<li>来源：ACL 2019</li>
+<li>代码：<a target="_blank" rel="noopener" href="https://github.com/lena-voita/the-story-of-heads">https://github.com/lena-voita/the-story-of-heads</a></li>
+</ul>
+<h2 id="摘要-Abstract"><a href="#摘要-Abstract" class="headerlink" title="摘要 Abstract"></a>摘要 Abstract</h2><p>这篇工作对Transformer中的多头注意力机制进行研究。通过剪枝等实验分析评估了单个注意头对模型整体性能的贡献。实验发现最重要、最有用的头通常都扮演着语言上可解释的角色。</p>
+<p>当使用基于随机门和$L_0$的可微分松弛的方法进行剪枝的时候，观察到这种特殊的头通常都是最后被剪枝掉的。作者提出的新剪枝的方法可以去除多头注意力机制中绝大部分的头，而不严重影响性能。例如，在英语-俄语的WMT数据集上，编码器中48个头在剪去38个头之后，性能仅下降了0.15的BLEU。</p>
+<h2 id="8-结论-Conclusion"><a href="#8-结论-Conclusion" class="headerlink" title="8 结论 Conclusion"></a>8 结论 Conclusion</h2><p>作者评估了每个单独的注意头对Transformer模型的翻译任务性能的贡献。作者使用层与层之间关联传播来表明了不同的头的相对贡献是不同的，只有一小部分的头看起来是对翻译任务重要的。在该模型中，重要的头具有一个或多个可解释的功能，包括注意相邻词和跟踪特定的句法关系。</p>
+<p>为了确定剩余的难以解释的头是否对模型的性能至关重要，我们引入了一种新的方法来剪枝注意头。我们观察到，重要的注意是最后被剪掉的，这直接证实了他们的重要性。此外，绝大多数的头，特别是编码器的自注意头，可以在不严重影响性能的情况下被移除。</p>
+<h2 id="1-导言-Introduction"><a href="#1-导言-Introduction" class="headerlink" title="1 导言 Introduction"></a>1 导言 Introduction</h2><p>最近Transformer很火，对其使用的多头注意力机制对翻译任务的重要性的探究是一项具有挑战性的任务。作者对此尝试去探究以下问题：</p>
+<ol>
+<li>翻译质量在多大程度上依赖于单个编码器的头？</li>
+<li>单个编码器头是否扮演一致和可解释的角色？如果是的话，哪些是对翻译质量最重要的？</li>
+<li>哪种类型的模型注意（编码器自我注意、解码器自我注意或解码器-编码器注意）对注意头的数量最敏感，和在哪些层上最敏感？</li>
+<li>我们能否在保持翻译质量的同时显著减少注意头的数量？</li>
+</ol>
+<p>我们首先使用分层关联传播来确定每个编码器层中最重要的头，对于被认为很重要的头，我们试图描述它们所扮演的角色。我们观察到以下几种角色：位置(头指向相邻的标记)、句法(头指向特定句法依赖关系中的标记)和罕见词(头指向句子中出现频率最低的标记)。</p>
+<p>虽然我们不能轻易地将活动头的数量作为惩罚项纳入我们的学习目标(即L0正则化器)，但我们可以使用可微分的松弛。我们从融合的完整模型开始，在一个持续学习的场景中修剪注意力头，并确定那些留在模型中的角色。</p>
+<p>这些实验证实了分层关联传播的研究结果；特别地，具有明确可识别的位置和句法功能的头被最后修剪，因此被证明它在翻译任务中是最重要的。</p>
+<h3 id="贡献"><a href="#贡献" class="headerlink" title="贡献"></a>贡献</h3><p>作者列举的几点key findings：</p>
+<ol>
+<li>只有一小部分头对翻译任务很重要</li>
+<li>重要的头在模型中有一个或多个专门的和可解释的功能</li>
+<li>这些功能对应的是对相邻单词和特定句法依赖关系中的标记的注意。</li>
+</ol>
+<h2 id="2-Transformer的架构-Transformer-Architecture"><a href="#2-Transformer的架构-Transformer-Architecture" class="headerlink" title="2 Transformer的架构 Transformer Architecture"></a>2 Transformer的架构 Transformer Architecture</h2><p>Transformer是一个编码器-解码器模型，编码器和解码器都使用堆叠的自注意层和全连接层。该编码器由$N$层组成，每层包含两个子层：(a)多头自注意机制，(b)前馈网络。多头注意机制依赖于规模的点积注意，它对一个查询$Q$、一个键$K$和一个值$V$进行操作：</p>
+<p><img src="/img/2022-04-12-AnalyzingMH-Notes/Eqn1.png" srcset="/img/loading.gif" lazyload></p>
+<p>其中$d_k$是Key的维度。在自我注意力中，查询、键和值来自前一层的输出。</p>
+<p>多头注意机制获得h个(即每个头一个)不同的$(Q, K, V)$表示，为每个表示计算缩放的点积注意，将结果串接，并通过前馈层投影串接。这可以用与式(1)相同的符号表示：</p>
+<p><img src="/img/2022-04-12-AnalyzingMH-Notes/Eqn2.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/img/2022-04-12-AnalyzingMH-Notes/Eqn3.png" srcset="/img/loading.gif" lazyload></p>
+<p>其中$W_i$和$W^O$是参数矩阵。</p>
+<p>Transformer网络每一层的第二个组成部分是前馈网络。作者建议使用一个激活ReLU的两层网络。</p>
+<p>类似地，解码器的每一层包含上述两个子层以及一个附加的多头注意子层。这个额外的子层接收编码器的输出作为它的键和值。</p>
+<p>Transformer以三种不同的方式使用多头注意:编码器自注意、解码器自注意和解码器-编码器注意。在这项工作中，我们主要集中在编码器的自我注意。</p>
+<h2 id="4-识别重要的头-Identifying-Important-Heads"><a href="#4-识别重要的头-Identifying-Important-Heads" class="headerlink" title="4 识别重要的头 Identifying Important Heads"></a>4 识别重要的头 Identifying Important Heads</h2><p>我们将头部的“信心”定义为其最大注意力权重的平均值(不包括句子末尾符号)，其中平均值是用于评价的一组句子(开发集)中的符号。一个自信的头通常会将其高度的注意力集中在一个标记上。直觉上，我们可能会认为自信的头对于翻译任务很重要。 </p>
+<p>分层关联传播(LRP) (Ding et al.， 2017)是一种计算网络中某一点神经元对另一点神经元的相对贡献的方法在。这里，我们提出使用LRP来评估每个层的不同头对模型预测的最高logit的贡献程度。结果具有较高相关性值的头可能被认为对模型的预测更重要。</p>
+<p>LRP的结果如图1a、2a、2c所示。在每一层中，LRP将少量的头像排列得比其他所有头像都重要。</p>
+<p><img src="/img/2022-04-12-AnalyzingMH-Notes/Fig1.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/img/2022-04-12-AnalyzingMH-Notes/Fig2.png" srcset="/img/loading.gif" lazyload></p>
+<p>每个头的置信度如图1b所示。我们可以看到，由LRP计算的头像的相关性与其置信度在一个合理的程度上是一致的。这个模式唯一明显的例外是LRP判断为第一层中最重要的头。它是第一层中最相关的头部，但其平均最大关注权重较低。</p>
+<h2 id="5-头扮演的是什么角色-Characterizing-heads"><a href="#5-头扮演的是什么角色-Characterizing-heads" class="headerlink" title="5 头扮演的是什么角色 Characterizing heads"></a>5 头扮演的是什么角色 Characterizing heads</h2><p>我们研究了一些特别关注被LRP排名高的头像的注意矩阵，并确定了头像可能发挥的三种功能：</p>
+<ol>
+<li>位置的作用：头部指向相邻的token</li>
+<li>句法上的作用:头指向特定句法关系中的符号</li>
+<li>生僻字：头首指的是句子中出现频率最低的符号</li>
+</ol>
+<h3 id="5-1-Positional-heads"><a href="#5-1-Positional-heads" class="headerlink" title="5.1 Positional heads"></a>5.1 Positional heads</h3><p>如果一个头至少90%的时间被分配到一个特定的相对位置(在实验中是-1或+1，即对相邻标记的关注)，我们就称其为“位置型”。图1c中英-俄、英-德、英-法的头部分别用紫色表示，并标出相对位置。</p>
+<p>可以看出，位置头像在很大程度上对应LRP排名中最自信的头像和最重要的头像。事实上，对于这里考虑的所有语言对，每个位置头的平均最大注意力权重超过0.8。</p>
+<h3 id="5-2-Syntactic-heads"><a href="#5-2-Syntactic-heads" class="headerlink" title="5.2 Syntactic heads"></a>5.2 Syntactic heads</h3><p>我们假设，当用于执行翻译时，Transformer的编码器可能负责消除源句子的句法结构的歧义。因此，我们希望知道一个头是否会处理句子中与任何主要句法关系相对应的符号。在我们的分析中，我们观察了以下依赖关系:名义主语(nsubj)、直接宾语(dobj)、形容词修饰语(mod)和副词修饰语(advmod)。这包括一个句子的主要言语论点和一些其他的共同关系。</p>
+<p>许多依赖关系经常观察到特定的相对位置(例如,他们常常举行相邻标记,如图3所示)。我们说一头是“语法”如果其准确性是至少高出10%基线看起来最常见的相对位置的依赖关系</p>
+<p><img src="/img/2022-04-12-AnalyzingMH-Notes/Fig3.png" srcset="/img/loading.gif" lazyload></p>
+<p>表1显示了英语-俄语在两个领域中所考虑的依赖关系中最精确的标题的准确性。图4比较了在WMT上训练的模型在不同目标语言下的得分。几个头似乎负责相同的依赖关系。这些头在图1c、2b、2d中用绿色表示。</p>
+<p><img src="/img/2022-04-12-AnalyzingMH-Notes/Tab1.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/img/2022-04-12-AnalyzingMH-Notes/Fig4.png" srcset="/img/loading.gif" lazyload></p>
+<p>（这个图里展示的是句法头相关的实验内容，但是我不太理解表里的具体含义）</p>
+<h3 id="5-3-Rare-words"><a href="#5-3-Rare-words" class="headerlink" title="5.3 Rare words"></a>5.3 Rare words</h3><p>在所有模型(中，我们发现第一层中的一个头被认为比这一层中的任何其他头对模型的预测更重要。</p>
+<p>我们发现这个头指向句子中出现频率最低的符号。对于在open字幕上训练的模型，在句子中最不频繁的标记不在最频繁的500个标记中，这个头指向66%的情况下最罕见的标记，以及83%的情况下最不频繁的两个标记之一。对于在WMT上训练的模型，这个头指向了在超过50%的这种情况下最不频繁的两个标记之一。这个头部在图1中以橙色表示。</p>
+<h2 id="6-剪枝注意力头-Pruning-Attention-Heads"><a href="#6-剪枝注意力头-Pruning-Attention-Heads" class="headerlink" title="6 剪枝注意力头 Pruning Attention Heads"></a>6 剪枝注意力头 Pruning Attention Heads</h2><p>我们已经确定了每一层最相关的头的某些功能，并表明它们在很大程度上是可解释的。剩下的头呢?它们对翻译质量来说是多余的，还是扮演着同样重要但不那么容易界定的角色?我们介绍了一种修剪注意力头的方法，试图回答这些问题。我们的方法基于Louizos等人(2018)。当他们修剪个体神经网络权值时，我们修剪整个模型组件(即头部)。我们首先描述我们的方法，然后检查当我们删除头像时，性能如何变化，识别在稀疏模型中保留的头像的功能。</p>
+<h3 id="6-1-Method"><a href="#6-1-Method" class="headerlink" title="6.1 Method"></a>6.1 Method</h3><p>在每个头前面加入了一个$g_i$，式子3就变成了：</p>
+<p><img src="/img/2022-04-12-AnalyzingMH-Notes/Eqn4.png" srcset="/img/loading.gif" lazyload></p>
+<p>与通常的门不同，gi是特定于头部的参数，独立于输入(即句子)。由于我们希望完全禁用不太重要的头，而不是简单地降低它们的权重，所以理想情况下，我们将对标量gi应用L0正则化。L0范数等于非零组件的数量，会促使模型关闭不太重要的头：</p>
+<p><img src="/img/2022-04-12-AnalyzingMH-Notes/Eqn5.png" srcset="/img/loading.gif" lazyload></p>
+<p>式中，$h$为头数，$[[]]$为指示函数。 </p>
+<p>不幸的是，L0范数是不可微的，因此不能直接作为正则项纳入目标函数。相反，我们使用一个随机松弛:每个门的gi现在是一个随机变量独立于特定头像的分布我们使用Hard Concrete分布(Louizos et al.， 2018)，这是闭区间上混合离散-连续分布的参数化族[0,1]，见图6a。分布在0、1、P (gi = 0|φi)、P (gi = 1|φi)处有非零概率质量，其中φi为分布参数。</p>
+<p><img src="/img/2022-04-12-AnalyzingMH-Notes/Fig6.png" srcset="/img/loading.gif" lazyload></p>
+<p>修改后的优化目标函数为：</p>
+<p><img src="/img/2022-04-12-AnalyzingMH-Notes/Eqn6.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="6-2-Pruning-encoder-heads"><a href="#6-2-Pruning-encoder-heads" class="headerlink" title="6.2 Pruning encoder heads"></a>6.2 Pruning encoder heads</h3><p>为了确定哪个头函数在编码器中是最重要的，以及该模型需要多少个头，我们进行了一系列的实验，用门只应用于编码器的自我注意。在这里，我们通过对正则化目标的训练模型进行微调来修剪模型在剪枝过程中，译码器的参数是固定的，只对编码器参数和门限进行微调。通过不对解码器进行微调，我们确保经过修剪的编码器头的功能不会迁移到解码器。</p>
+<h4 id="6-2-1-BLEU-量化分数结果"><a href="#6-2-1-BLEU-量化分数结果" class="headerlink" title="6.2.1 BLEU 量化分数结果"></a>6.2.1 BLEU 量化分数结果</h4><p>图7提供了BLEU分数。对于更复杂的WMT任务，编码器中的10个头足以保持在全模式的0.15 BLEU范围内。</p>
+<p><img src="/img/2022-04-12-AnalyzingMH-Notes/Fig7.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="6-2-2-剩余的头的作用"><a href="#6-2-2-剩余的头的作用" class="headerlink" title="6.2.2 剩余的头的作用"></a>6.2.2 剩余的头的作用</h4><p>图7的结果表明，即使只有几个头，编码器仍然有效。在本节中，我们研究在剪枝过程中留在编码器中的那些头的功能。图8显示了在修剪模型中，所有头部的功能都用颜色编码。每一列对应一个模型，在修剪后保留特定数量的头。各层的头部按功能排序。有些头可以执行几种功能(例如，s→v和v→o);在本例中显示了函数的数量。</p>
+<p><img src="/img/2022-04-12-AnalyzingMH-Notes/Fig8.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="6-3-剪枝编码器以外的head-Pruning-all-types-of-attention-heads"><a href="#6-3-剪枝编码器以外的head-Pruning-all-types-of-attention-heads" class="headerlink" title="6.3 剪枝编码器以外的head Pruning all types of attention heads"></a>6.3 剪枝编码器以外的head Pruning all types of attention heads</h3><p>我们发现我们的剪枝技术可以有效地减少编码器中的头的数量，而不会对翻译质量造成重大的下降。现在我们研究修剪模型中所有类型的注意头的效果(不仅仅是在编码器中)。这使我们能够评估不同类型的注意在翻译任务模型中的重要性。在这些实验中，我们对Transformer中的所有多头注意头都添加了门，即编码器和解码器的自注意以及解码器到编码器的注意。</p>
+<h4 id="6-3-1-结果"><a href="#6-3-1-结果" class="headerlink" title="6.3.1 结果"></a>6.3.1 结果</h4><p>各注意层的剪枝实验结果如表2所示。对京东商城模型训练数据,我们能够修剪几乎3⁄4编码器正面和超过1⁄3的正面在解码器self-attention decoder-encoder注意没有任何明显的翻译质量损失(稀疏,行1)。我们也可以删除模型中超过半数的头和损失不超过0.25BLEU。</p>
+<p><img src="/img/2022-04-12-AnalyzingMH-Notes/Tab2.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="6-3-2-Heads-Importance"><a href="#6-3-2-Heads-Importance" class="headerlink" title="6.3.2 Heads Importance"></a>6.3.2 Heads Importance</h4><p>图9显示了在不同修剪速率下，每种注意类型的保留头数。我们可以看到，该模型更倾向于先修剪编码器的自注意头，而解码器-编码器的注意头对于这两个数据集似乎是最重要的。显然，如果没有解码器的注意，翻译就不可能发生。</p>
+<p><img src="/img/2022-04-12-AnalyzingMH-Notes/Fig9.png" srcset="/img/loading.gif" lazyload></p>
+<p>图10显示了对于不同稀疏率的模型，解码器中不同层的主动自注意头和解码器-编码器注意头的数量(为了减少噪声，我们绘制了相邻层中剩余的对注意头的和)。</p>
+<p><img src="/img/2022-04-12-AnalyzingMH-Notes/Fig10.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="简短总结-你看完这篇论文的总结"><a href="#简短总结-你看完这篇论文的总结" class="headerlink" title="简短总结 # 你看完这篇论文的总结"></a>简短总结 # 你看完这篇论文的总结</h2><p>这篇文章主要讲了在Transformer的编码器中对自注意头的重要性探索，通过剪枝掉整个头（使用gate让某个头完全不起作用）来比较实验结果。对每个头的重要性进行了评估，并且探究了这些头在翻译任务中为什么重要，他们可能在其中扮演了什么样的角色，在此基础上，作者提出了三种可能很重要的头的类型：</p>
+<ol>
+<li>注意相邻词的位置的头</li>
+<li>注意语法、句法关系的头</li>
+<li>注意生僻字符的头</li>
+</ol>
+<p>并且在这个基础上，作者对Transformer的编码器进行了剪枝（删掉头）实验，得到的结果是最终剩下的头普遍也是之前较为重要的头，并且在性能损失较小的情况下通过对重要的头的保留，能够将原来48个头剪去38个。</p>
+<p>后来也将这项剪枝头的实验推广到编码器以外的层（解码器等），也进行了实验结果的讨论和比较。</p>
+<h2 id="创新点-这篇论文自己写的贡献"><a href="#创新点-这篇论文自己写的贡献" class="headerlink" title="创新点 # 这篇论文自己写的贡献"></a>创新点 # 这篇论文自己写的贡献</h2><p><a target="_blank" rel="noopener" href="https://c9hu5keisa.feishu.cn/docs/doccn5sJJQmFbf9N9OOvFweobLd#DQHmDk">1 引言-贡献</a></p>
+<h2 id="优劣-论文自己写的和你认为的优劣势（相比其他方法）"><a href="#优劣-论文自己写的和你认为的优劣势（相比其他方法）" class="headerlink" title="优劣 # 论文自己写的和你认为的优劣势（相比其他方法）"></a>优劣 # 论文自己写的和你认为的优劣势（相比其他方法）</h2><ol>
+<li>感觉提出每个注意力头可能扮演的角色这一点很新颖。感觉作者用了一个合适的故事来讲他探索自注意力机制的作用。但是代价可能就是这样的工作只足够他在机器翻译这一个任务上进行探究，结果其实不一定有普遍性。</li>
+<li>作者提出的方法其实是基于前人的一个公式改进，使得L0范数可以微分，他只是在这个基础上直接进行了实验，在剪枝方法上显得比较粗暴，也没有什么新颖。总体上感觉是一篇实验结果和讨论为主的文章。</li>
+</ol>
+<h2 id="流程与公式-尽量以图为主，附带必要说明"><a href="#流程与公式-尽量以图为主，附带必要说明" class="headerlink" title="流程与公式 # 尽量以图为主，附带必要说明"></a>流程与公式 # 尽量以图为主，附带必要说明</h2><p><a target="_blank" rel="noopener" href="https://c9hu5keisa.feishu.cn/docs/doccn5sJJQmFbf9N9OOvFweobLd#16zmrK">6 剪枝</a></p>
+<h2 id="主要实验-重点是比较的表格"><a href="#主要实验-重点是比较的表格" class="headerlink" title="主要实验 # 重点是比较的表格"></a>主要实验 # 重点是比较的表格</h2><p><a target="_blank" rel="noopener" href="https://c9hu5keisa.feishu.cn/docs/doccn5sJJQmFbf9N9OOvFweobLd#lwLMOG">6.2 6.3 实验结果</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">论文阅读笔记</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86-NLP/">自然语言处理 NLP</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Transformer/">Transformer</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%89%AA%E6%9E%9D-Pruning/">剪枝 Pruning</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！<br> 如果觉得文章内容不错，还请大力支持哦~<br> <div class="buttons is-centered"> <a class="button donate" data-type="wechat"><span class="icon is-small"><i class="iconfont icon-wechat-fill"></i></span><span>赞赏码</span> <span class="qrcode"><img src="/img/basic/donate.png" srcset="/img/loading.gif" lazyload alt="赞赏码"></span></a> </div>
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022-04-03-Pruning-Notes/">
+                        <span class="hidden-mobile">Pruning 泛读论文笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"d01489e72d00bbbd006f","clientSecret":"0d56ce41df647dd34492d79df080630005dedc92","repo":"dragonbra.github.io","owner":"dragonbra","admin":["dragonbra"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '1a81d251c84bac12e0f3e023b840a9f6'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     Copyright © 2021 - 2022 <a target="_blank" rel="noopener" href="https://github.com/dragonbra">Dragonbra</a> All Right Reserved .<br> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

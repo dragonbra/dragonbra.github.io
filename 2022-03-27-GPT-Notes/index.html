@@ -1,0 +1,685 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/basic/my_avatar.jpg">
+  <link rel="icon" href="/img/basic/my_avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Dragonbra He">
+  <meta name="keywords" content="程序员, 音游, 研究生, CV, 厦门大学">
+  
+  <title>GPT、GPT-2、GPT-3 论文笔记 | dragonbra&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/icarus-donate.css">
+<link rel="stylesheet" href="/css/scrollbar.css">
+<link rel="stylesheet" href="/css/index_img_hover.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"dragonbra.github.io","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NDVcNrHYdR9mm1EYC3Kmk9OG-gzGzoHsz","app_key":"0mwGy9MBysfulRH8Jdk7qQrM","server_url":"https://ndvcnrhy.lc-cn-n1-shared.com"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 80vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Dragonbra's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/2022-03-27-GPT-Notes/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.6)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="GPT、GPT-2、GPT-3 论文笔记">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-26 20:11" pubdate>
+        2022年3月26日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      29
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">GPT、GPT-2、GPT-3 论文笔记</h1>
+            
+            <div class="markdown-body">
+              <h1 id="GPT、GPT-2、GPT-3-论文笔记"><a href="#GPT、GPT-2、GPT-3-论文笔记" class="headerlink" title="GPT、GPT-2、GPT-3 论文笔记"></a>GPT、GPT-2、GPT-3 论文笔记</h1><h2 id="论文主要信息"><a href="#论文主要信息" class="headerlink" title="论文主要信息"></a>论文主要信息</h2><ul>
+<li>标题： <ul>
+<li>Improving Language Understanding by Generative Pre-Training（GPT）</li>
+<li>Language Models are Unsupervised Multitask Learners （GPT-2）</li>
+<li>Language Models are Few-Shot Learners（GPT-3）</li>
+</ul>
+</li>
+<li>作者：<a target="_blank" rel="noopener" href="https://www.semanticscholar.org/author/Alec-Radford/38909097">Alec Radford</a>, <a target="_blank" rel="noopener" href="https://www.semanticscholar.org/author/Jeff-Wu/49387725">Jeff Wu</a>, <a target="_blank" rel="noopener" href="https://www.semanticscholar.org/author/Rewon-Child/48422824">Rewon Child</a>, <a target="_blank" rel="noopener" href="https://www.semanticscholar.org/author/D.-Luan/150970919">D. Luan</a>, <a target="_blank" rel="noopener" href="https://www.semanticscholar.org/author/Dario-Amodei/2698777">Dario Amodei</a>, <a target="_blank" rel="noopener" href="https://www.semanticscholar.org/author/Ilya-Sutskever/1701686">Ilya Sutskever</a></li>
+<li>机构：OpenAI</li>
+<li>来源：Computation and Language</li>
+<li>代码：<a target="_blank" rel="noopener" href="https://github.com/openai/gpt-3">https://github.com/openai/gpt-3</a></li>
+<li>目前应用：<a target="_blank" rel="noopener" href="https://gpt3demo.com/">https://gpt3demo.com/</a> <ul>
+<li>生成一个以假乱真的技术博客</li>
+<li>根据输入的要求生成一段HTML代码</li>
+<li>GitHub Copilot</li>
+<li>图灵测试问答机器人等等</li>
+</ul>
+</li>
+</ul>
+<h2 id="开始之前-GPT改进路线"><a href="#开始之前-GPT改进路线" class="headerlink" title="开始之前 GPT改进路线"></a>开始之前 GPT改进路线</h2><p><img src="/img/2022-03-27-GPT-Notes/Aft1.png" srcset="/img/loading.gif" lazyload></p>
+<p>首先GPT这篇文章是在Transformer出现之后运用了Transformer的编码器，做了一个预训练模型后在做下游任务的时候做微调的模型，GPT。GPT-2是在GPT的基础上把模型做得更大，朝着zero-shot的方向迈了一大步。GPT-3是在GPT-2的基础上暴力出奇迹，数据和模型都大了100倍，然后得到了很好的效果（详见GPT-3 demo等诸多应用）。</p>
+<p>引用率相比BERT更少，约为1/2。沐神：不是因为创新度和效果不如谷歌的BERT系列，而是因为GPT选择解决更大的问题，所以技术上实现和出效果更难一些。GPT-3这个效果规模几乎是没有别的团队能够复现的。和OpenAI想做一个强人工智能的公司背景有关系。比如Transformer就是想解决机器翻译的问题，BERT就是想把CV界的预训练好的大模型在实际任务上微调的做法搬到NLP来。</p>
+<h1 id="GPT-Improving-Language-Understanding-by-Generative-Pre-Training"><a href="#GPT-Improving-Language-Understanding-by-Generative-Pre-Training" class="headerlink" title="GPT | Improving Language Understanding by Generative Pre-Training"></a>GPT | Improving Language Understanding by Generative Pre-Training</h1><h2 id="摘要-Abstract"><a href="#摘要-Abstract" class="headerlink" title="摘要 Abstract"></a>摘要 Abstract</h2><p>在自然语言理解里，有很多不一样的任务。虽然有很多大量的没有标号的文本内容，但是有标号的数据是相对较少的，这使得如果我们在labeled data上训练分辨模型的话还是比较难，因为数据相对来说比较的小。作者提出的解决方法是在没有标号的数据集上训练一个预训练的语言模型，接下来再在有标号的子任务上训练一个分辨的微调模型。作者是在微调的时候构造和任务相关的输入，从而只需要很少地改变模型的架构就行了。实验结果是12个任务里有9个任务超过了已有的成绩。</p>
+<h2 id="1-导言-Introduction"><a href="#1-导言-Introduction" class="headerlink" title="1. 导言 Introduction"></a>1. 导言 Introduction</h2><p>如何利用无标号的文本数据？在当时最成功的模型还是词嵌入模型。用没有标号的文本的时候会遇到一些困难：第一是不知道用什么样的优化目标函数，损失函数。当时有一些选择是语言模型、机器翻译或者文本的一致性，但是发现没有某一个在所有的任务上都特别好。第二个难点是如何有效地把学到的文本的表示传递到下游的子任务上。因为NLP里的子任务差别很大，没有统一的方法能一致地迁移到子任务上。</p>
+<p>GPT这篇文章提出了一个在没有标号的文本上进行的一个半监督（semi-supervised）的方法，训练出一个预训练模型后再在下游任务上微调。后面的研究工作基于BERT和GPT的，其实被叫做自监督模型（self supervised learning）而不是半监督学习。</p>
+<p>首先第一个技术要点是，作者用到的模型是基于Transformer的架构，原因是：跟RNN这类模型相比，Transformer在迁移学习的时候学到的feature更加稳健一些。可能是因为Transformer里面有更结构化的记忆，使得能处理更长的文本信息，从而能抽取出来更好的句子层面和段落层面的语义信息。第二个技术点是在做迁移的时候用的是任务相关的输入表示，在后文有展示。</p>
+<h2 id="2-相关工作-Related-Work"><a href="#2-相关工作-Related-Work" class="headerlink" title="2. 相关工作 Related Work"></a>2. 相关工作 Related Work</h2><p>NLP里的半监督学习是怎样的，无监督的预训练模型是怎样的，训练的时候使用多个目标函数会怎样（Auxiliary training objectives）。分别对应的是大的GPT模型在没有标号的数据上训练出来是如何的，以及怎么样在子任务上运用有标号的数据上进行微调，以及在子任务微调的时候作者使用了两个训练的目标函数。</p>
+<h2 id="3-模型框架-Framework"><a href="#3-模型框架-Framework" class="headerlink" title="3. 模型框架 Framework"></a>3. 模型框架 Framework</h2><h3 id="3-1-无监督的预训练-Unsupervised-pre-training"><a href="#3-1-无监督的预训练-Unsupervised-pre-training" class="headerlink" title="3.1. 无监督的预训练 Unsupervised pre-training"></a>3.1. 无监督的预训练 Unsupervised pre-training</h3><p>假设输入的一个无标号的句子信息是$U=\lbrace u_1, …, u_n\rbrace$，作者使用了一个标准的语言模型目标去最大化下面这个似然函数：</p>
+<p><img src="/img/2022-03-27-GPT-Notes/Eqn1.png" srcset="/img/loading.gif" lazyload></p>
+<p>语言模型就是预测第$i$个词出现的概率。具体到公式中就是给定模型，用一个长度为$k$的上下文窗口，每次拿$k$个连续的词，预测这些连续的词后面的那个词是谁。这个$L_1$是指第一个目标函数，因为取了log所以损失函数是相加。此处$\Theta$是模型的参数，$k$是超参数。用到的模型是Transformer的解码器。Transformer的编码器和解码器最大的不一样是，编码器对序列的第$i$个元素抽取特征的时候，能看到整个序列里所有的元素，但是对解码器而言，因为有掩码的存在，所以对第$i$个元素抽取特征的时候，只会看到当前元素和它之前的这些元素，后面的内容通过掩码使得计算注意力机制的时候贡献是0。所以对这个标准的语言模型（预测下一个词出现的概率）来讲，只能使用Transformer的解码器。下面的公式对Transformer的解码器进行了一定的解释：</p>
+<p><img src="/img/2022-03-27-GPT-Notes/Eqn2.png" srcset="/img/loading.gif" lazyload></p>
+<p>GPT和BERT的区别：</p>
+<p>BERT使用的不是标准的语言模型，而是完形填空，预测的是中间的句子，能看到前后的信息，所以能使用Transformer的编码器。主要区别在于目标函数的选取，相比BERT的完形填空，GPT选择的是预测未来这个较难的目标函数（信息较少），这也是训练和效果上GPT比BERT差一点的原因。但反过来如果模型是通过这样预测未来的方式训练出来并且能得到很好的效果，那么比BERT的完形填空训练方式得到的模型要强大很多，这也是后续GPT改进的一个重要方向，做大做强。</p>
+<h3 id="3-2-有监督的微调-Supervised-fine-tuning"><a href="#3-2-有监督的微调-Supervised-fine-tuning" class="headerlink" title="3.2. 有监督的微调 Supervised fine-tuning"></a>3.2. 有监督的微调 Supervised fine-tuning</h3><p>在微调任务中，数据是有标号的。每次给一个长为$m$的句子$x^1,…,x^m$和一个标签$y$，根据句子去预测标签$y$的概率。要使得这个标准的分类的概率目标函数最大化。</p>
+<p><img src="/img/2022-03-27-GPT-Notes/Eqn3.png" srcset="/img/loading.gif" lazyload></p>
+<p>在微调的时候只关心分类的精度，但如果把之前预训练的语言模型函数放进来也不错，也就是说微调的时候可以使用两个目标函数的时候训练效果是最佳的。这里的$\lambda$也是一个可以调的超参数。</p>
+<p><img src="/img/2022-03-27-GPT-Notes/Eqn5.png" srcset="/img/loading.gif" lazyload></p>
+<p>接下来要考虑的是如何把NLP的一些不同的子任务表示成这样的一个通用的输入形式。</p>
+<h3 id="3-3-针对不同的子任务的输入表示-Task-specific-input-transformations"><a href="#3-3-针对不同的子任务的输入表示-Task-specific-input-transformations" class="headerlink" title="3.3. 针对不同的子任务的输入表示 Task-specific input transformations"></a>3.3. 针对不同的子任务的输入表示 Task-specific input transformations</h3><p><img src="/img/2022-03-27-GPT-Notes/Fig1.png" srcset="/img/loading.gif" lazyload></p>
+<p>第一类是最常见的文本分类（Classification），比如对产品的评价是正面/负面。将要分类的文字在前面放一个开始（Start）的词元，后面做一个抽取（Extract）的词元，做成一个序列放进Transformer里面，把抽取的词元放到线性层（微调时新加入的）里投影到需要标号的空间。</p>
+<p>第二类应用叫做蕴含（Entailment），给一段话，再给一个假设，判断前面这段话有没有蕴含假设提出来的东西。这个序列包含一个开始词元，分隔符（Delim）和抽取符。</p>
+<p>第三类应用叫做相似（Similarity），给定两个文档是不是相似的，进行去重。因为相似是一个堆成的关系，如果a和b相似那么b和a相似的，但是语言模型是有先后顺序，所以这里做了两个序列，分别是ab和ba的句子顺序，两段序列分别进入模型后得到输出，再进行相加后输入到线性层得到结果。“是”或“不是”相似的一个二分类结果。</p>
+<p>第四类应用叫做多选题（Multiple Choice），给出问题和几个答案，选出觉得正确的答案。如果有$n$个答案就构造$n$个序列，其中每个序列前面都是问题，后面就是答案。每个序列进入模型后再进入到一个线性投影层，输出的是每个答案是这个问题的答案的置信度。对每个答案计算这个标量，进行softmax后得到正确的答案置信度是多少。</p>
+<p>不管任务是怎么变，核心的模型结构和输入表示都不会进行太大的改变。这是GPT和之前的文章一个比较大的区别，也是这篇文章的一个核心卖点。</p>
+<h2 id="4-实验-Experiments"><a href="#4-实验-Experiments" class="headerlink" title="4. 实验 Experiments"></a>4. 实验 Experiments</h2><h3 id="4-1-Setup"><a href="#4-1-Setup" class="headerlink" title="4.1 Setup"></a>4.1 Setup</h3><p><strong>Unsupervised pre-training</strong>  在BooksCorpus这个数据集上进行训练，包含7000本没有发表的书。</p>
+<p><strong>Model specifications</strong> 模型包含12个解码器，每一层的维度是768。这里就是$BERT_{base}$对标的GPT的版本。</p>
+<p><strong>Fine-tuning details</strong> 介绍了微调的时候的超参数。</p>
+<h3 id="4-2-Supervised-fine-tuning"><a href="#4-2-Supervised-fine-tuning" class="headerlink" title="4.2 Supervised fine-tuning"></a>4.2 Supervised fine-tuning</h3><p><img src="/img/2022-03-27-GPT-Notes/Tab3.png" srcset="/img/loading.gif" lazyload></p>
+<p>微调后对比之前的一些算法，效果都更加好。</p>
+<h1 id="GPT-2-Language-Models-are-Unsupervised-Multitask-Learners"><a href="#GPT-2-Language-Models-are-Unsupervised-Multitask-Learners" class="headerlink" title="GPT-2 | Language Models are Unsupervised Multitask Learners"></a>GPT-2 | Language Models are Unsupervised Multitask Learners</h1><h2 id="摘要-Abstract-1"><a href="#摘要-Abstract-1" class="headerlink" title="摘要 Abstract"></a>摘要 Abstract</h2><p>对比BERT采用的编码器，GPT系列采用的是解码器，所以如何在解码器上做到更好更强，就是GPT-2在BERT出来后要回应的问题。首先做了一个新的数据集叫WebText，有百万级别的网页文本。于是可以训练一个更大的模型（1.5B个参数，作为对比，BERT_large的参数是340M，文本变成了百万级别，模型参数3.4亿到15亿）。作者在GPT的基础上加入了zero-shot作为GPT-2的主要卖点。</p>
+<h2 id="1-导言-Introduction-1"><a href="#1-导言-Introduction-1" class="headerlink" title="1. 导言 Introduction"></a>1. 导言 Introduction</h2><p>现在对ML systems的一个主流途径就是对一个任务收集一个数据集，然后在上面训练模型做预测。这个模型很流行是因为现在的模型的泛化性并不是很好，也就是说在一个任务上训练好的模型很难直接用到下一个任务上。多任务学习的观点是在训练一个模型的时候同时看多个数据集，可能通过增加多的损失函数来达到一个模型在多任务上都能使用（90年代末提出，00-10年比较流行的一个话题）。这个看上去很好，但是在NLP上用的不多，现在NLP主流的也是像之前GPT1和BERT那类的预训练后下游微调的模型。这样会造成两个问题：第一是对每个下游的任务还是得训练一个模型，第二个是也需要收集有标号的数据才行，这样拓展到新任务上还是有一定的成本。</p>
+<p>GPT-2要干的事情是做语言模型的同时，在下游任务的时候要使用一个zero-shot的设定，做下有任务的时候不需要标注的信息，也不需要训练模型。</p>
+<h2 id="2-方法-Approach"><a href="#2-方法-Approach" class="headerlink" title="2. 方法 Approach"></a>2. 方法 Approach</h2><p>GPT2的模型和GPT-1差不多。GPT-1的模型在预训练的时候是没有看到微调的时候构造的开始、分隔、抽取等词符的，而是在微调的时候去认识了这些词符。但是GPT-2如果要做zero-shot的话，也就是不进行微调，如果在下游引入了模型之前没有见过的词，模型会很困惑。所以在这样的设定下，下游任务就不能引入之前模型没有见过的符号，而是要使下游任务的输入和之前的输入形式要一样，输入的形式要更像自然的语言。</p>
+<p>比如要做机器翻译的任务，可以输入一个序列(translate to French, english text, french text)，这在后面的研究中被称之为prompt(提示)。比如要做阅读理解的话，训练样例会被写成(answer the question, document, question, answer)。之后作者也花了较长笔墨解释为什么这样做是可行的，假如模型是足够强的话，也有前人的相关工作提到了这一点。</p>
+<h3 id="2-1-训练数据集-Training-Dataset"><a href="#2-1-训练数据集-Training-Dataset" class="headerlink" title="2.1. 训练数据集  Training Dataset"></a>2.1. 训练数据集  Training Dataset</h3><p>前人用的是Wikipedia，或者是书，作者需要使用更大的数据集才行。作者提到一个可行的方法是一个叫做Common Crawl的项目，一群人写了一个爬虫，不断地去抓取网页，把抓取的网页放在aws的s3上面，供大家免费的下载（tb级别的数量级）。作者说这个数据集不好用，因为信噪比比较低，抓取到的网页里有大量比较垃圾的网页，如果要清理它需要花很长的时间。所以他使用了大家过滤好的网页，Reddit上至少有3个karma的帖子，最后得到了4500个链接，抽取了里面的文本信息，最后这个数据集里有大概800万个文本，40GB的文字。</p>
+<p>作者一共设计了4个大小不同的模型。</p>
+<p><img src="/img/2022-03-27-GPT-Notes/Tab2.png" srcset="/img/loading.gif" lazyload></p>
+<p>这张图表明了4个模型在不同的任务上取得的性能表现。在一些任务上做得还不错，别的任务上有一点点意思。（委婉说不太好）但是注意到随着模型变大，性能也是在上升的。</p>
+<p><img src="/img/2022-03-27-GPT-Notes/Fig2-1.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="3-实验-Experiments"><a href="#3-实验-Experiments" class="headerlink" title="3. 实验 Experiments"></a>3. 实验 Experiments</h2><p>主要是和别的做zero-shot的SOTA方法进行比较，和BERT那一类不太一样。</p>
+<p><img src="/img/2022-03-27-GPT-Notes/Tab2-3.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="GPT-3-Language-Models-are-Few-Shot-Learners"><a href="#GPT-3-Language-Models-are-Few-Shot-Learners" class="headerlink" title="GPT-3 | Language Models are Few-Shot Learners"></a>GPT-3 | Language Models are Few-Shot Learners</h1><p>文章长度有63页。不是投稿的文章，是技术报告。</p>
+<h2 id="摘要-Abstract-2"><a href="#摘要-Abstract-2" class="headerlink" title="摘要 Abstract"></a>摘要 Abstract</h2><p>作者训练了一个GPT-3模型，有175B个可学习的参数。和那些非稀疏（不会存在很多参数为0的模型）的模型比也是大了10倍。因为模型已经很大了，所以如果在做子任务的时候还要训练模型的话成本是很大的。所以GPT-3在作用到子任务上的时候不做任何的梯度更新或者微调。在NLP的任务上取得了很好的成绩（GPT-2的成绩挺差的）。GPT-3可以生成一些新闻文章，让人难以分辨是人写出来的还是生成的。</p>
+<h2 id="1-导言-Introduction-2"><a href="#1-导言-Introduction-2" class="headerlink" title="1. 导言 Introduction"></a>1. 导言 Introduction</h2><p>最近NLP里大家都使用预训练的模型再微调。这是存在一定问题的，对每个子任务需要一个和任务相关的数据集和一个任务相关的微调。具体列举了三个问题：第一是大的数据集标注困难，第二是一个样本没有出现在数据分布里的时候，泛化性不一定比小模型微调后好（可能是过拟合预训练的训练数据），第三是人类不需要很大的数据集来做一个任务，可能通过几个例子就会掌握一个应用（few-shot）。</p>
+<p>作者提出的解决方案是few-shot。作者取名叫meta-learning（训练了一个很大的模型，泛化性不错） / in-context learning（做下游任务即使告诉了训练样本，也不更新权重），强调的是模型权重在做下游任务的时候不做任何的更新。</p>
+<p>GPT-3是一个有1750亿参数的模型，评估GPT-3的3个设定是：第一是few-shot learning，给每个任务提供10-100个样本，第二是one-shot learning，可以看成few-shot learning里特别的只有一个样本的情况，第三是zero-shot learning，没有训练样本直接进行子任务。下图展示了在三个设定下模型的区别：</p>
+<p><img src="/img/2022-03-27-GPT-Notes/Fig3-1.3.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="2-方法-Approach-1"><a href="#2-方法-Approach-1" class="headerlink" title="2. 方法 Approach"></a>2. 方法 Approach</h2><p><img src="/img/2022-03-27-GPT-Notes/Fig3-2.1.png" srcset="/img/loading.gif" lazyload></p>
+<p>这里主要讲了微调、Few-shot、One-shot、Zero-shot具体是怎么做的。GPT-3这里就是不做梯度更新。这里Zero-shot的“=&gt;”就是一个prompt，提示该模型去进行输出了。One-shot就是在定义好任务后给一个例子（可以看作例子作为任务的一个输入，希望模型通过注意力机制从中抽取到有用的信息），只做预测，不做训练（不更新梯度），也就是上下文学习指的事情。Few-shot就是给多个例子。</p>
+<h3 id="2-1-模型架构-Model-and-Architectures"><a href="#2-1-模型架构-Model-and-Architectures" class="headerlink" title="2.1. 模型架构 Model and Architectures"></a>2.1. 模型架构 Model and Architectures</h3><p>GPT-3的模型和GPT-2的模型是一样的。加入了一些Sparse Transformer里的改动，设计了8个不同大小的模型。</p>
+<p><img src="/img/2022-03-27-GPT-Notes/Tab3-2.1.png" srcset="/img/loading.gif" lazyload></p>
+<p>批量大小是动辄百万级别，利用了分布式机器学习在数据并行性上更高的好处。批量大小变大的时候，批量里的噪音会很大，但是在大的模型中这样噪音的影响不会很大，也就是过拟合不太经常会发生。最近也有很多工作在研究其中的原因。</p>
+<h3 id="2-2-训练数据集-Training-Dataset"><a href="#2-2-训练数据集-Training-Dataset" class="headerlink" title="2.2. 训练数据集 Training Dataset"></a>2.2. 训练数据集 Training Dataset</h3><p>由于GPT-3模型更大了，不得不重新考虑使用Common Crawl的数据了。在Common Crawl的数据集上基于GPT-2使用的高质量Reddit帖子的数据进行二分类，收集了更多质量偏高的文章。接下来做了一个去重的工作，具体用到的是lsh（信息检索，Information Retrieval）的算法。第三步也加了一些已知的高质量数据集，最后得到高质量的大的数据集。</p>
+<p><img src="/img/2022-03-27-GPT-Notes/Tab3-2.2.png" srcset="/img/loading.gif" lazyload></p>
+<p>由于Common Crawl的质量还是不高，所以在batch上使用了不同的采样率，保证了更好的质量。</p>
+<h3 id="2-3-训练过程-Training-Process"><a href="#2-3-训练过程-Training-Process" class="headerlink" title="2.3. 训练过程 Training Process"></a>2.3. 训练过程 Training Process</h3><p>（沐神：不“厚道”，GPT-3其实是非常难训练的。肯定有很复杂的模型分割和数据分割的过程，但是没有详细讲是怎么做这一步的）作者使用了微软的V100的DGX-1的集群，有很高的带宽。</p>
+<h3 id="2-4-模型评估-Evaluation"><a href="#2-4-模型评估-Evaluation" class="headerlink" title="2.4. 模型评估 Evaluation"></a>2.4. 模型评估 Evaluation</h3><p>预训练好后直接进行评估，使用了上下文学习。下游任务采样$k$个样本，prompt用的是”Answer: “或者”A: “。二分类的结果是”True”或”False”，自由的答案就是生成后进行beam search（from 机器翻译）找到一个比较好的答案。</p>
+<h2 id="3-结果-Results"><a href="#3-结果-Results" class="headerlink" title="3. 结果 Results"></a>3. 结果 Results</h2><p><img src="/img/2022-03-27-GPT-Notes/Fig3-3.1.png" srcset="/img/loading.gif" lazyload></p>
+<p>这张图展现的是不同大小模型的计算量上的区别，y轴是验证损失。每个模型最好的点拉成一条线是服从power law的分布，随着训练，损失是线性地往下降的。</p>
+<p><img src="/img/2022-03-27-GPT-Notes/Fig3-3.2.png" srcset="/img/loading.gif" lazyload></p>
+<p>在LAMBADA任务上，和最好的Zero-shot和人类的表现进行了比较。</p>
+<p><img src="/img/2022-03-27-GPT-Notes/Fig3-3.4.png" srcset="/img/loading.gif" lazyload></p>
+<p>机器翻译的结果。别的语言翻译到英语（实线）比英语翻译到别的语言（虚线）性能要好。</p>
+<h2 id="5-局限性-Limitations"><a href="#5-局限性-Limitations" class="headerlink" title="5. 局限性 Limitations"></a>5. 局限性 Limitations</h2><p>虽然比GPT-2的效果好很多，但是在文本生成上效果是不太好的。假设需要生成一个很长的文章，如小说，可能会循环使用同样的文字进行生成，很难得到一个剧情类的内容向前推进。</p>
+<p>有一些结构和算法上的局限性，因为GPT-3用的是语言类的模型，是往前看的，不能像BERT一样前后看。每次预测使用的是前面的所有的词，但是都有相同的权重，不一定能注意到重点的词。</p>
+<p>由于只用了文本，没有使用视频或其他方面的素材，不够通用。样本的有效性不够。有一个不确定性是对于每个样本是从头开始学习还是从模型中找到了之前的任务，然后把它记住。</p>
+<p>训练起来非常的贵。</p>
+<p>GPT-3和很多别的深度学习的模型一样，是无法解释的。</p>
+<h2 id="6-可能的影响-Broader-Impacts"><a href="#6-可能的影响-Broader-Impacts" class="headerlink" title="6. 可能的影响 Broader Impacts"></a>6. 可能的影响 Broader Impacts</h2><p>GPT-3这个模型已经很强大了，可以直接部署到生产环境里了。</p>
+<h3 id="6-1-可能会被用来做坏事-Misuse-of-Language-Models"><a href="#6-1-可能会被用来做坏事-Misuse-of-Language-Models" class="headerlink" title="6.1. 可能会被用来做坏事 Misuse of Language Models"></a>6.1. 可能会被用来做坏事 Misuse of Language Models</h3><ol>
+<li>散播不实信息，生成一些垃圾邮件，钓鱼邮件，论文造假。生成新闻都有些以假乱真了。</li>
+<li>公平性、偏见。（男性/女性的偏见）（种族、宗教等等）</li>
+<li>能耗。训练GPT-3需要几百台机器训练很多天。</li>
+</ol>
+<h2 id="8-结论-Conclusion"><a href="#8-结论-Conclusion" class="headerlink" title="8. 结论 Conclusion"></a>8. 结论 Conclusion</h2><p>我们做了一个175B参数的语言模型，在许多的NLP任务上做了zero-shot, one-shot, few-shot的学习，在很多情况下可以媲美使用更多带标号数据的基于微调的算法。一个卖点是能生成很多高质量的成本，展示了一个不用基于微调的可能性。</p>
+<h1 id="读后评论"><a href="#读后评论" class="headerlink" title="读后评论"></a>读后评论</h1><p>沐神：</p>
+<p>GPT系列在一开始选择了Transformer的二选一里的解码器，可能走了更难的路，但是作者继续进行尝试改进，得到了更好的结果。展示了语言模型能暴力出奇迹的。</p>
+<p>我：</p>
+<p>让我试试这些GPT-3 demo！！找到一个可用的，Blog Idea Generator。感觉像是高级版的废话生成器哈哈哈。GitHub Copilot需要体验权限，如果有了我再试试看，看起来的效果也太猛了。</p>
+<p><img src="/img/2022-03-27-GPT-Notes/Aft2.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/img/2022-03-27-GPT-Notes/Aft3.png" srcset="/img/loading.gif" lazyload></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">论文阅读笔记</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86-NLP/">自然语言处理 NLP</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Transformer/">Transformer</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
+                    
+                      <a class="hover-with-bg" href="/tags/GPT/">GPT</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！<br> 如果觉得文章内容不错，还请大力支持哦~<br> <div class="buttons is-centered"> <a class="button donate" data-type="wechat"><span class="icon is-small"><i class="iconfont icon-wechat-fill"></i></span><span>赞赏码</span> <span class="qrcode"><img src="/img/basic/donate.png" srcset="/img/loading.gif" lazyload alt="赞赏码"></span></a> </div>
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022-03-26-BERT-Notes/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">BERT 论文笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022-03-12-Transformer-Notes/">
+                        <span class="hidden-mobile">Transformer 论文笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"d01489e72d00bbbd006f","clientSecret":"0d56ce41df647dd34492d79df080630005dedc92","repo":"dragonbra.github.io","owner":"dragonbra","admin":["dragonbra"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: 'df58a102a3164b62eca9ced348e88513'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     Copyright © 2021 - 2022 <a target="_blank" rel="noopener" href="https://github.com/dragonbra">Dragonbra</a> All Right Reserved .<br> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
